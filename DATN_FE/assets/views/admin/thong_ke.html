@@ -1,0 +1,340 @@
+<link rel="stylesheet" href="/assets/css/thong_ke.css">
+<main ng-controller="StatisticalController">
+    <!-- thanh tổng hợp  -->
+    <div class="py-3">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 mb-4">
+                    <div class="summary-card" style="background-color: #6f42c1;">
+                        <div>
+                            <div class="card-change">Tổng Doanh Thu</div>
+                            <div class="card-value fw-bolder">{{ totalRevenueFormatted }}</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="summary-card" style="background-color: #0d6efd;">
+                        <div>
+                            <div class="card-change">Tổng số khóa học</div>
+                            <div class="card-value fw-bolder">{{ totalCourses}} khóa học</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="summary-card" style="background-color: #0dcaf0;">
+                        <div>
+                            <div class="card-change">Tổng số người dùng</div>
+                            <div class="card-value fw-bolder">{{ totalUser}} học viên</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3 mb-4">
+                    <div class="summary-card" style="background-color: #fd7e14;">
+                        <div>
+                            <div class="card-change">Số chứng chỉ đã cấp</div>
+                            <div class="card-value fw-bolder">{{ totalCoursesComplete}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Biểu đồ -->
+    <div>
+        <div class="container">
+            <div class="row">
+                <div class="col col-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <ul class="nav nav-pills">
+                                <!-- Nút "Danh mục" với menu thả xuống -->
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                                        aria-expanded="false">Danh mục</a>
+                                    <ul class="dropdown-menu searchEdit" style="width: 250px;">
+                                        <li>
+                                            <a class="dropdown-item" href="#"
+                                                ng-click="$event.preventDefault(); changeRevenueView('month')">Doanh thu
+                                                theo tháng</a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" href="#"
+                                                ng-click="$event.preventDefault(); changeRevenueView('year')">Doanh thu
+                                                theo năm</a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="myChart" ng-init="initCharts()"></canvas>
+                        </div>
+                        <div class="card-footer">
+                            <h5 class="fw-bold text-center">{{ revenueChartTitle }}</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col col-6">
+                    <div class="card">
+                        <div class="card-header">
+                            <ul class="nav nav-pills">
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" role="button"
+                                        aria-expanded="false">Danh mục</a>
+                                    <ul class="dropdown-menu searchEdit" style="width: 250px;">
+                                        <li><a class="dropdown-item" href="#"
+                                                ng-click="$event.preventDefault(); changeUserStatsView('month')">Theo
+                                                tháng</a></li>
+                                        <li><a class="dropdown-item" href="#"
+                                                ng-click="$event.preventDefault(); changeUserStatsView('year')">Theo
+                                                năm</a></li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="card-body">
+                            <canvas id="myLineChart" ng-init="initCharts()"></canvas>
+                        </div>
+                        <div class="card-footer">
+                            <h5 class="fw-bold text-center">{{ UserStatsChartTitle }}</h5>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Danh sách -->
+    <div>
+        <div class="container py-3">
+            <!-- Tên tab -->
+            <ul class="nav nav-tabs" id="profileTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link fw-bold active" id="profile-tab" data-bs-toggle="tab"
+                        data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="true">
+                        Thông tin khóa học
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link fw-bold" id="orders-tab" data-bs-toggle="tab" data-bs-target="#orders"
+                        type="button" role="tab" aria-controls="orders" aria-selected="false">
+                        Thông tin người dùng
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link fw-bold" id="registered-tab" data-bs-toggle="tab"
+                        data-bs-target="#registered" type="button" role="tab" aria-controls="registered"
+                        aria-selected="false">
+                        Các khóa học đã bán
+                    </button>
+                </li>
+            </ul>
+
+            <!-- Nội dung TAB -->
+            <div class="tab-content" id="profileTabContent">
+                <!-- TAB 1 -->
+                <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="float-end">
+                                <button type="button" class="btn btn-outline-danger" ng-click="sortByFollow()"><i
+                                        class="fa-solid fa-fire"></i>
+                                    Khóa học có số người theo dõi cao nhất</button>
+                                <button type="button" class="btn btn-outline-primary" ng-click="getFreeCourses()">Khóa
+                                    học miễn phí</button>
+                                <button type="button" class="btn btn-outline-primary" ng-click="getUnFreeCourses()">Khóa
+                                    học tính phí</button>
+                                <button type="button" class="btn btn-outline-success" ng-click="exportCourseToExcel()">
+                                    <i class="fa-solid fa-file-export"></i> Xuất file Excel
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div ng-init="itemsToShow = 10"> <!-- Khởi tạo số mục hiển thị là 10 -->
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">STT</th>
+                                            <th scope="col">Mã khóa học</th>
+                                            <th scope="col">Tên khóa học</th>
+                                            <th scope="col">Số bài học</th>
+                                            <th scope="col">Giá</th>
+                                            <th scope="col">Số người theo dõi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Hiển thị danh sách theo số lượng itemsToShow -->
+                                        <tr ng-repeat="itemCourse in listKhoaHoc | limitTo: itemsToShow">
+                                            <th scope="row" class="text-center">{{$index + 1}}</th>
+                                            <td class="text-center">{{itemCourse.courseId}}</td>
+                                            <td>{{itemCourse.name}}</td>
+                                            <td class="text-center">{{itemCourse.numberOfLesson}}</td>
+                                            <td class="float-end"
+                                                ng-bind="itemCourse.price == 0 ? 'Miễn phí' : (itemCourse.price.toLocaleString('vi-VN') + ' VND')">
+                                            </td>
+                                            <td class="text-center">{{itemCourse.follow}}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <!-- Nút Xem Thêm/Thu Gọn -->
+                                <div class="text-center">
+                                    <button class="btn btn-outline-success" ng-show="itemsToShow < listKhoaHoc.length"
+                                        ng-click="itemsToShow = listKhoaHoc.length">Xem thêm <i
+                                            class="fa-solid fa-chevron-down"></i></button>
+                                    <button class="btn btn-secondary" ng-show="itemsToShow === listKhoaHoc.length"
+                                        ng-click="itemsToShow = 10">Thu gọn <i
+                                            class="fa-solid fa-chevron-up"></i></button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- TAB 2-->
+                <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="orders-tab">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="float-end">
+                                <button type="button" class="btn btn-outline-success" ng-click="exportUserToExcel()"><i
+                                        class="fa-solid fa-file-export"></i> Xuất file Excel</button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div ng-init="itemsToShowUser = 10"> <!-- Khởi tạo số lượng người dùng hiển thị là 10 -->
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">STT</th>
+                                            <th scope="col">User ID</th>
+                                            <th scope="col">Tên người dùng</th>
+                                            <th scope="col">SDT</th>
+                                            <th scope="col">Email</th>
+                                            <th scope="col">Các khóa học đã tham gia</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Hiển thị danh sách người dùng theo số lượng itemsToShowUser -->
+                                        <tr ng-repeat="itemUser in listNguoiDung | limitTo: itemsToShowUser">
+                                            <th scope="row">{{$index + 1}}</th>
+                                            <td>{{itemUser.userId}}</td>
+                                            <td>{{itemUser.name}}</td>
+                                            <td>{{itemUser.phone}}</td>
+                                            <td>{{itemUser.email}}</td>
+                                            <td class="text-center">
+                                                <button class="btn btn-outline-success btn-sm" data-bs-toggle="modal"
+                                                    data-bs-target="#userDetailModalUserStatistical" aria-hidden="true"
+                                                    ng-click="getKhoaHocDaDangKy(itemUser.userId)">
+                                                    Xem Chi Tiết <i class="fa-solid fa-circle-info"></i>
+                                                </button>
+                                            </td>
+                                            <!-- Thay thế dữ liệu này bằng các khóa học tham gia thực tế -->
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <!-- Nút Xem Thêm/Thu Gọn -->
+                                <div class="text-center">
+                                    <button class="btn btn-outline-success"
+                                        ng-show="itemsToShowUser < listNguoiDung.length"
+                                        ng-click="itemsToShowUser = listNguoiDung.length">Xem thêm <i
+                                            class="fa-solid fa-chevron-down"></i></button>
+                                    <button class="btn btn-secondary" ng-show="itemsToShowUser === listNguoiDung.length"
+                                        ng-click="itemsToShowUser = 10">Thu gọn <i
+                                            class="fa-solid fa-chevron-up"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- TAB 3 -->
+                <div class="tab-pane fade" id="registered" role="tabpanel" aria-labelledby="registered-tab">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="float-end">
+                                <button type="button" class="btn btn-outline-success" ng-click="exportKhoaHocDaBanToExcel()"><i
+                                        class="fa-solid fa-file-export"></i> Xuất file Excel</button>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div ng-init="itemsToShowUser = 10"> <!-- Khởi tạo số lượng người dùng hiển thị là 10 -->
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">STT</th>
+                                            <th scope="col">Mã khóa học</th>
+                                            <th scope="col">Tên Khóa học</th>
+                                            <th scope="col">Số người theo dõi</th>
+                                            <th scope="col">Giá</th>
+                                            <th scope="col">Số lượt bán</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <!-- Hiển thị danh sách người dùng theo số lượng itemsToShowUser -->
+                                        <tr ng-repeat="itemUser in listKhoaHocDaBan | limitTo: itemsToShowUser">
+                                            <th scope="row">{{$index + 1}}</th>
+                                            <td>{{itemUser[0]}}</td> <!-- Mã khóa học (ID) -->
+                                            <td>{{itemUser[1]}}</td> <!-- Tên khóa học -->
+                                            <td>{{itemUser[2]}}</td> <!-- Số người theo dõi -->
+                                            <td
+                                                ng-bind="itemUser[3] == 0 ? 'Miễn phí' : (itemUser[3].toLocaleString('vi-VN') + ' VND')">
+                                            </td>
+                                            <td class="float-end">{{itemUser[4]}}</td> <!-- Số lượt bán -->
+                                        </tr>
+                                    </tbody>
+                                </table>
+
+                                <!-- Nút Xem Thêm/Thu Gọn -->
+                                <div class="text-center">
+                                    <button class="btn btn-outline-success"
+                                        ng-show="itemsToShowUser < listNguoiDung.length"
+                                        ng-click="itemsToShowUser = listNguoiDung.length">Xem thêm <i
+                                            class="fa-solid fa-chevron-down"></i></button>
+                                    <button class="btn btn-secondary" ng-show="itemsToShowUser === listNguoiDung.length"
+                                        ng-click="itemsToShowUser = 10">Thu gọn <i
+                                            class="fa-solid fa-chevron-up"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="userDetailModalUserStatistical" tabindex="-1" aria-labelledby="userDetailModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h6 class="modal-title fw-bold text-success" id="userDetailModalLabel">Khóa học đã đăng ký
+                    </h6>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div ng-if="listChiTietNguoiDung.length === 0">
+                        <h5 class="text-success text-center">Người dùng chưa tham gia vào khóa học nào</h5>
+                    </div>
+                    <table class="table" ng-if="listChiTietNguoiDung.length !== 0">
+                        <thead>
+                            <tr>
+                                <th scope="col">STT</th>
+                                <th scope="col">Mã khóa học</th>
+                                <th scope="col">Tên khóa học</th>
+                                <th scope="col">Ngày đăng ký</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Hiển thị danh sách người dùng theo số lượng itemsToShowUser -->
+                            <tr ng-repeat="itemListCourse in listChiTietNguoiDung | limitTo: itemsToShowUser">
+                                <th scope="row">{{$index + 1}}</th>
+                                <td>{{itemListCourse.course.courseId}}</td>
+                                <td>{{itemListCourse.course.name}}</td>
+                                <td>{{itemListCourse.createAt}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>

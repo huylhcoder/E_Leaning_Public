@@ -1,0 +1,40 @@
+<Main ng-controller="commentController">
+    <div class="container mt-5">
+        <div class="card">
+            <div class="card-body">
+                <form ng-submit="submitFeedback()"> <!-- Sử dụng ng-submit để gọi hàm khi nhấn nút submit -->
+                    <!-- Phản hồi Dropdown -->
+                    <div class="mb-3">
+                        <label for="phanhoi" class="form-label fw-bold text-success fs-6">Phản hồi:</label>
+                        <select class="form-select" id="phanhoi" ng-model="formData.phanhoi" required>
+                            <option value="" disabled selected>Chọn loại phản hồi</option>
+                            <option value="Góp ý">Góp ý</option>
+                            <option value="Báo lỗi">Báo lỗi</option>
+                            <option value="Khác">Khác</option>
+                        </select>
+                    </div>
+                    <!-- Nội dung Textarea -->
+                    <div class="mb-3">
+                        <label for="noidung" class="form-label fw-bold text-success fs-6">Nội dung:</label>
+                        <textarea class="form-control" id="noidung" rows="4" placeholder="Nhập nội dung"
+                            ng-model="formData.noidung" required>
+                        </textarea>
+                    </div>
+                    <!-- Tải lên tệp -->
+                    <div class="mb-3">
+                        <label for="fileUpload" class="form-label fw-bold text-success fs-6">Tải lên tệp: </label><span>Chỉ tải lên các tệp có đuôi: .jpg,.jpeg,.png,.pdf</span>
+                        <input type="file" class="form-control" id="fileUpload" ng-model="formData.file"
+                            accept=".jpg,.jpeg,.png,.pdf" ngf-select required>
+                    </div>
+                </form>
+            </div>
+            <div class="card-footer">
+                <!-- Buttons -->
+                <div class="d-flex float-end">
+                    <button type="reset" class="btn btn-warning me-3" ng-click="clearFormData()">Làm mới</button>
+                    <button type="submit" class="btn btn-success" ng-click="submitFeedback()">Gửi Phản Hồi</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</Main>

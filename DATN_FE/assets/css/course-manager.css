@@ -1,0 +1,49 @@
+.nav-tabs .nav-link {
+  border: none;
+  color: #000000;
+}
+
+.nav-tabs .nav-link.active {
+  font-weight: bold;
+  color: #fff;
+}
+
+.vd:hover {
+  color: #000000;
+  transform: scale(1.05);
+  transition: all 0.3s ease;
+  font-weight: bold;
+}
+
+.vdm:hover {
+  color: #000000;
+  transform: scale(1.05);
+  transition: all 0.3s ease;
+  font-weight: bold;
+}
+
+.video-actions {
+  display: none;
+  margin-top: 10px;
+}
+
+.video-row:hover .video-actions {
+  display: inline-block;
+}
+
+.video-title {
+  margin-top: 1px;
+}
+
+.table:hover .tt {
+  text-decoration: underline;
+}
+
+.hv:hover {
+  background-color: #ffffff;
+  border-color: #ffffff;
+  color: #000000;
+  transform: scale(1.05);
+  transition: all 0.3s ease;
+  font-weight: bold;
+}

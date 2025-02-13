@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thanh toán thành công</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .success-container {
+            text-align: center;
+            background: #fff;
+            padding: 20px 40px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .success-icon {
+            font-size: 50px;
+            color: #28a745;
+            margin-bottom: 20px;
+        }
+        .success-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 10px;
+        }
+        .success-message {
+            font-size: 16px;
+            color: #666;
+            margin-bottom: 20px;
+        }
+        .transaction-info {
+            text-align: left;
+            font-size: 14px;
+            color: #444;
+            margin-bottom: 20px;
+        }
+        .transaction-info p {
+            margin: 5px 0;
+        }
+        .action-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+        }
+        .btn {
+            padding: 10px 20px;
+            font-size: 14px;
+            text-decoration: none;
+            color: #fff;
+            background: #007bff;
+            border-radius: 5px;
+            transition: background 0.3s;
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+        .btn-secondary {
+            background: #6c757d;
+        }
+        .btn-secondary:hover {
+            background: #5a6268;
+        }
+    </style>
+</head>
+<body>
+    <div class="success-container">
+        <div class="success-icon">✔️</div>
+        <div class="success-title">Thanh toán thành công!</div>
+        <div class="success-message">Cảm ơn bạn đã mua sắm với chúng tôi.</div>
+        <div class="transaction-info">
+            <p><strong>Mã giao dịch:</strong> 123456789</p>
+            <p><strong>Ngày giao dịch:</strong> 23/12/2024</p>
+            <p><strong>Số tiền:</strong> 1.500.000 VNĐ</p>
+        </div>
+        <div class="action-buttons">
+            <a href="/" class="btn">Về trang chủ</a>
+            <a href="/order-history" class="btn btn-secondary">Đơn hàng của tôi</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,509 @@
+<link rel="stylesheet" href="/assets/css/hoc_bai.css" />
+<link rel="stylesheet" href="/assets/css/danh_muc_khoa_hoc.css" />
+<div ng-if="loading == 1" ng-include="'assets/views/pageloader.html'">
+  {{loading}}
+</div>
+<main>
+  <div class="container mt-4">
+    <div class="row">
+      <!--BÊN TRÁI -->
+      <div class="col-md-8 mb-4">
+        <!-- HIỂN THỊ VIDEO -->
+        <div class="video-container">
+          <video id="myVideo" width="100%" ng-src="{{blobVideo}}" controls>
+            Your browser does not support the video tag.
+          </video>
+        </div>
+        <!-- HIỂN THI TÁC TAB -->
+        <div class="row">
+          <div class="col-12 mt-3">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+              <li class="nav-item" role="presentation">
+                <button
+                  class="nav-link active"
+                  id="noi-dung-bai-hoc-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#noi-dung-bai-hoc"
+                  type="button"
+                  role="tab"
+                  aria-controls="noi-dung-bai-hoc"
+                  aria-selected="true"
+                >
+                  Nội dung bài học
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button
+                  class="nav-link"
+                  id="Tg-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#Tg"
+                  type="button"
+                  role="tab"
+                  aria-controls="Tg"
+                  aria-selected="false"
+                >
+                  Tác giả
+                </button>
+              </li>
+              <li class="nav-item" role="presentation">
+                <button
+                  class="nav-link"
+                  id="dg-tab"
+                  data-bs-toggle="tab"
+                  data-bs-target="#dg"
+                  type="button"
+                  role="tab"
+                  aria-controls="dg"
+                  aria-selected="false"
+                >
+                  Đánh giá
+                </button>
+              </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+              <!-- NỘI DUNG BÀI HỌC -->
+              <div
+                class="tab-pane fade show active"
+                id="noi-dung-bai-hoc"
+                role="tabpanel"
+                aria-labelledby="noi-dung-bai-hoc-tab"
+              >
+                <div
+                  ng-if="selectedLesson"
+                  class="card mb-3"
+                  style="max-width: 100%"
+                >
+                  <div class="row g-0">
+                    <div class="card-body">
+                      <p>Thông tin bài học</p>
+                      <p class="mt-3 p-2">{{ selectedLesson.description }}</p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- TÁC GIẢ -->
+              <div
+                class="tab-pane fade"
+                id="Tg"
+                role="tabpanel"
+                aria-labelledby="Tg-tab"
+              >
+                <div class="card text-center">
+                  <div class="card-body">
+                    <div class="avatarTG">
+                      <img
+                        src="{{user.urlProfileImage}}"
+                        alt=""
+                        class="img-fluid rounded-circle"
+                      />
+                    </div>
+                    <div class="mt-5">
+                      <p class="card-text">
+                        <i class="fa-solid fa-user"></i> {{user.name}} <br />
+                        <i class="fa-solid fa-envelope"></i> {{user.email}}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <!-- ĐÁNH GIÁ -->
+              <div
+                class="tab-pane fade"
+                id="dg"
+                role="tabpanel"
+                aria-labelledby="dg-tab"
+              >
+                <div class="row">
+                  <div class="col-md-8">
+                    <div class="section-title">
+                      <br />
+                      <form id="formDanhGia" ng-submit="addCMT()">
+                        <div class="mb-3">
+                          <div class="rating">
+                            <span
+                              ng-class="{active: comment.statRating >= 1}"
+                              ng-click="setRating(1)"
+                              >&#9733;</span
+                            >
+                            <span
+                              ng-class="{active: comment.statRating >= 2}"
+                              ng-click="setRating(2)"
+                              >&#9733;</span
+                            >
+                            <span
+                              ng-class="{active: comment.statRating >= 3}"
+                              ng-click="setRating(3)"
+                              >&#9733;</span
+                            >
+                            <span
+                              ng-class="{active: comment.statRating >= 4}"
+                              ng-click="setRating(4)"
+                              >&#9733;</span
+                            >
+                            <span
+                              ng-class="{active: comment.statRating >= 5}"
+                              ng-click="setRating(5)"
+                              >&#9733;</span
+                            >
+                          </div>
+                        </div>
+
+                        <div class="mb-3">
+                          <label for="nhanXet" class="form-label"
+                            >Nhận xét của bạn</label
+                          >
+                          <textarea
+                            id="nhanXet"
+                            class="form-control"
+                            rows=" 3"
+                            placeholder="Viết nhận xét của bạn ở đây..."
+                            ng-model="comment.content"
+                          ></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-success">
+                          Gửi đánh giá
+                        </button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <div class="mb-5" style="max-width: 100%">
+                  <div class="row g-0">
+                    <div ng-repeat="item in listComment">
+                      <div class="card-body my-3 border p-3">
+                        <h6 class="card-title fw-bold">
+                          {{item.comment.user.name}}
+                          <span class="ms-1 fs-6 float-end text-secondary"
+                            >{{item.comment.createAt}}</span
+                          >
+                        </h6>
+                        <div class="float-end">
+                          <span ng-if="item.comment.statRating == 5">
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-solid fa-star text-warning"></i>
+                          </span>
+                          <span ng-if="item.comment.statRating == 4">
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-regular fa-star text-warning"></i>
+                          </span>
+                          <span ng-if="item.comment.statRating == 3">
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-regular fa-star text-warning"></i>
+                            <i class="fa-regular fa-star text-warning"></i>
+                          </span>
+                          <span ng-if="item.comment.statRating == 2">
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-regular fa-star text-warning"></i>
+                            <i class="fa-regular fa-star text-warning"></i>
+                            <i class="fa-regular fa-star text-warning"></i>
+                          </span>
+                          <span ng-if="item.comment.statRating == 1">
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-regular fa-star text-warning"></i>
+                            <i class="fa-regular fa-star text-warning"></i>
+                            <i class="fa-regular fa-star text-warning"></i>
+                            <i class="fa-regular fa-star text-warning"></i>
+                          </span>
+                        </div>
+                        <p class="card-text fs-6 mt-3">
+                          {{item.comment.content}}
+                        </p>
+                        <div class="mb-3 fs-6 ms-2">
+                          <h6 class="text-primary">{{item.reply.user.name}}</h6>
+                          <p class="fs-6">{{item.reply.content}}</p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- BÊN PHẢI -->
+      <div class="col-md-4">
+        <div class="mb-5">
+          <button
+            class="btn float-end"
+            ng-class="{
+                              'btn-outline-success': listCourseProgress.progressStatus === 0 && listCourseProgress.progressPercentage === 100,
+                              'btn-outline-secondary': listCourseProgress.progressStatus === 1 || (listCourseProgress.progressStatus === 0 && listCourseProgress.progressPercentage < 100)
+                          }"
+            ng-disabled="listCourseProgress.progressStatus === 1 || listCourseProgress.progressPercentage < 100"
+            ng-click="receiveCertificate()"
+          >
+            <!-- {{ listCourseProgress.progressStatus === 0 ? 'Nhận chứng chỉ' : 'Đã nhận' }} -->
+            <span ng-if="listCourseProgress.progressStatus === 0"
+              >Nhận chứng chỉ
+              <img
+                class="image-hover"
+                src="/assets/img/icon/certificateGreen.png"
+                alt="Chứng chỉ"
+            /></span>
+            <span ng-if="listCourseProgress.progressStatus === 1"
+              >Đã nhận chứng chỉ <i class="fa-solid fa-check"></i
+            ></span>
+          </button>
+        </div>
+        <div class="card mb-3" style="max-width: 100%">
+          <!-- <div class="card-body course-content">
+                      <h5 class="card-title mb-3">Tiến độ khóa học</h5>
+                      <td>
+                          <progress-meter>
+                              <progress-percent style="--progress: 90"></progress-percent>
+                          </progress-meter>
+                      </td>
+                      
+                  </div> -->
+
+          <div class="card-body course-content">
+            <h5 class="card-title mb-3">
+              Tiến độ khóa học:
+              <span id="completionTick" style="display: none; color: green"
+                >✓</span
+              >
+              <span>{{ progressPercentage | number:0 }}%</span>
+              <!-- Hiển thị phần trăm tiến độ -->
+            </h5>
+            <progress-meter>
+              <progress-percent id="progressBarCourse" style="--progress: 0">
+              </progress-percent>
+            </progress-meter>
+          </div>
+
+          <div class="card-body course-content">
+            <h5 ng-if="selectedLesson" class="card-title mb-3">
+              Tiến độ video: {{ selectedLesson.lessonName }}
+              <span id="completionTick" style="display: none; color: green"
+                >✓</span
+              >
+            </h5>
+            <progress-meter>
+              <progress-percent
+                id="progressBar"
+                style="--progress: 0"
+              ></progress-percent>
+              <!-- Hiển thị thanh tiến độ video -->
+            </progress-meter>
+          </div>
+        </div>
+
+        <div class="card">
+          <div ng-if="course.listSectionCourseDetailDTO.length === 0">
+            <div class="card">
+              <div class="card-body">
+                <blockquote class="blockquote mb-0">
+                  <p>Khóa học này hiện chưa có nội dung</p>
+                  <footer class="blockquote-footer">Đang chờ cập nhật</footer>
+                </blockquote>
+              </div>
+            </div>
+          </div>
+          <div
+            ng-repeat="section in course.listSectionCourseDetailDTO"
+            class="course-content"
+          >
+            <div class="accordion" id="courseContentAccordion">
+              <div class="accordion-item">
+                <h2 class="accordion-header" id="headingOne_{{ $index }}">
+                  <button
+                    class="accordion-button collapsed"
+                    type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseOne_{{ $index }}"
+                    aria-expanded="false"
+                    aria-controls="collapseOne_{{ $index }}"
+                  >
+                    Phần {{ $index+1 }}: {{section.sectionName}}
+                  </button>
+                </h2>
+                <div
+                  id="collapseOne_{{ $index }}"
+                  class="accordion-collapse collapse"
+                  aria-labelledby="headingOne_{{ $index }}"
+                  data-bs-parent="#courseContentAccordion"
+                >
+                  <div class="accordion-body">
+                    <ul
+                      ng-repeat="lesson in section.listLesson"
+                      class="list-group"
+                    >
+                      <li class="list-group-item">
+                        <a
+                          class="text-black"
+                          href=""
+                          ng-click="showLessonDetail(lesson)"
+                        >
+                          <i class="fa-solid fa-play me-2"></i>
+                          Bài {{ $index + 1 }}: {{ lesson.lessonName }}
+                        </a>
+                      </li>
+                    </ul>
+                    <ul ng-repeat="test in section.listTest" class="list-group">
+                      <li class="list-group-item">
+                        <a
+                          class="text-black"
+                          href=""
+                          ng-click="gotoTest(test.testID)"
+                        >
+                          <i class="text-danger fa-solid fa-question me-2"></i>
+                          {{ test.title }}
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                  <!-- Phần hiển thị nội dung bài học -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12 mt-4">
+        <div class="section-title">
+          <h2 class="title">Khóa học liên quan</h2>
+          <div class="section-title">
+            <div>
+              <ul
+                ng-if="showHashtags"
+                class="mt-2"
+                style="list-style-type: none; padding: 0"
+              >
+                <li
+                  ng-repeat="h in hashtags"
+                  style="display: inline-block; margin-right: 10px"
+                >
+                  <a
+                    href=""
+                    ng-click="load_course_hashtag(h.hashTagId)"
+                    class="text-primary"
+                    >#{{h.hashTag.name}}</a
+                  >
+                </li>
+              </ul>
+            </div>
+            <!-- Danh sách khóa học theo hashtag, chỉ hiển thị khi showCategoryCourses là true -->
+            <div ng-if="listCourseOfHashtag.length === 0">
+              <div class="card">
+                <div class="card-body">
+                  <blockquote class="blockquote mb-0">
+                    <p>Khóa học này hiện chưa có nội dung</p>
+                    <footer class="blockquote-footer">Đang chờ cập nhật</footer>
+                  </blockquote>
+                </div>
+              </div>
+            </div>
+            <div class="d-flex flex-wrap align-items-start-custom gap-4 py-4">
+              <div ng-repeat="itemHashtag in listCourseOfHashtag">
+                <div class="cardCourseHB">
+                  <a
+                    href=""
+                    style="text-decoration: none"
+                    ng-click="gotoCourseDetail(itemHashtag.courseId)"
+                  >
+                    <div>
+                      <img
+                        src="{{itemHashtag.avatar}}"
+                        alt="{{itemHashtag.name}}"
+                        class="card-imgCourseHB"
+                      />
+                    </div>
+                    <div class="card-infoCourseHB">
+                      <p class="text-titleCourseHB">{{itemHashtag.name}}</p>
+                      <p class="text-bodyCourseHB">
+                        {{itemHashtag.description}}
+                      </p>
+                      <div class="text-bodyCourseHB">
+                        <!-- <span class="average-rating">({{item.totalRate}}.0)</span> -->
+                        <span class="ratingCourse"
+                          >({{itemHashtag.averageRating}}.0)</span
+                        >
+                        <span class="average-stars ml-2">
+                          <span ng-if="course.averageRating == 5">
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-solid fa-star text-warning"></i>
+                          </span>
+                          <span ng-if="course.averageRating == 4">
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-regular fa-star text-warning"></i>
+                          </span>
+                          <span ng-if="course.averageRating == 3">
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-regular fa-star text-warning"></i>
+                            <i class="fa-regular fa-star text-warning"></i>
+                          </span>
+                          <span ng-if="course.averageRating == 2">
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-regular fa-star text-warning"></i>
+                            <i class="fa-regular fa-star text-warning"></i>
+                            <i class="fa-regular fa-star text-warning"></i>
+                          </span>
+                        </span>
+                      </div>
+                      <div class="card-footerCourseHB">
+                        <span
+                          class="priceCourseHB ms-2"
+                          ng-bind="itemHashtag.price == 0 ? 'Miễn phí' : (itemHashtag.price.toLocaleString('vi-VN') + ' VND')"
+                        ></span>
+                        <button
+                          class="card-buttonCourseHB btn btn-outline-success"
+                          ng-if="itemHashtag.price > 0"
+                          ng-click="addCourseToCart(itemHashtag.courseId)"
+                        >
+                          <svg class="svg-icon" viewBox="0 0 20 20">
+                            <path
+                              d="M17.72,5.011H8.026c-0.271,0-0.49,0.219-0.49,0.489c0,0.271,0.219,0.489,0.49,0.489h8.962l-1.979,4.773H6.763L4.935,5.343C4.926,5.316,4.897,5.309,4.884,5.286c-0.011-0.024,0-0.051-0.017-0.074C4.833,5.166,4.025,4.081,2.33,3.908C2.068,3.883,1.822,4.075,1.795,4.344C1.767,4.612,1.962,4.853,2.231,4.88c1.143,0.118,1.703,0.738,1.808,0.866l1.91,5.661c0.066,0.199,0.252,0.333,0.463,0.333h8.924c0.116,0,0.22-0.053,0.308-0.128c0.027-0.023,0.042-0.048,0.063-0.076c0.026-0.034,0.063-0.058,0.08-0.099l2.384-5.75c0.062-0.151,0.046-0.323-0.045-0.458C18.036,5.092,17.883,5.011,17.72,5.011z"
+                            ></path>
+                            <path
+                              d="M8.251,12.386c-1.023,0-1.856,0.834-1.856,1.856s0.833,1.853,1.856,1.853c1.021,0,1.853-0.83,1.853-1.853S9.273,12.386,8.251,12.386z M8.251,15.116c-0.484,0-0.877-0.393-0.877-0.874c0-0.484,0.394-0.878,0.877-0.878c0.482,0,0.875,0.394,0.875,0.878C9.126,14.724,8.733,15.116,8.251,15.116z"
+                            ></path>
+                            <path
+                              d="M13.972,12.386c-1.022,0-1.855,0.834-1.855,1.856s0.833,1.853,1.855,1.853s1.854-0.83,1.854-1.853S14.994,12.386,13.972,12.386z M13.972,15.116c-0.484,0-0.878-0.393-0.878-0.874c0-0.484,0.394-0.878,0.878-0.878c0.482,0,0.875,0.394,0.875,0.878C14.847,14.724,14.454,15.116,13.972,15.116z"
+                            ></path>
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12 text-center mt-3 mb-3">
+        <a
+          class="btn btn-theme"
+          href="#!assets/views/user/danh_muc_khoa_hoc"
+          onclick="window.scrollTo(0, 0)"
+          >Xem tất cả khóa học</a
+        >
+      </div>
+    </div>
+  </div>
+</main>

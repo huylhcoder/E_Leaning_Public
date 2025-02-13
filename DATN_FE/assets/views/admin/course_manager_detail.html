@@ -1,0 +1,286 @@
+<link rel="stylesheet" href="/assets/css/course-manager-detail.css" />
+<div class="container mt-4">
+  <ul class="list-unstyled d-flex align-items-center gap-2 mb-3">
+    <li ng-click="chuyenTrangLink('listCourse_url')" class="fs-5">
+      Danh sách khóa học >
+    </li>
+    <li ng-click="chuyenTrangLink('listSection_url')" class="fs-5 link-success">
+      Danh sách phần của khóa: {{course.name}} >
+    </li>
+  </ul>
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button
+        class="nav-link active"
+        id="overview-tab"
+        data-bs-toggle="tab"
+        data-bs-target="#overview"
+        type="button"
+        role="tab"
+        aria-controls="overview"
+        aria-selected="true"
+      >
+        Thông tin tổng quát
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button
+        class="nav-link"
+        id="details-tab"
+        data-bs-toggle="tab"
+        data-bs-target="#details"
+        type="button"
+        role="tab"
+        aria-controls="details"
+        aria-selected="false"
+      >
+        Các phần của khóa học
+      </button>
+    </li>
+  </ul>
+  <div class="tab-content mt-4" id="myTabContent">
+    <!-- ////////////////////////////////////////////////////////////// -->
+    <!-- Thông tin tổng quát -->
+    <div
+      class="tab-pane fade show active overview-container"
+      id="overview"
+      role="tabpanel"
+      aria-labelledby="overview-tab"
+    >
+      <div class="container">
+        <form class="row" ng-submit="luuThongTinChiTietKhoaHoc()">
+          <!-- Tên khóa học -->
+          <div class="col-6">
+            <div class="mb-4">
+              <label for="courseTitle" class="form-label">Tên khóa học</label>
+              <input
+                ng-model="course.name"
+                type="text"
+                class="form-control"
+                id="courseTitle"
+                placeholder="Nhập tên"
+                required
+              />
+            </div>
+            <!-- Trạng thái khóa học -->
+            <!-- Nếu bằng 1 hoặc 2 thì chỉ cho chuyển qua lại -->
+            <div ng-if="course.status == 1 || course.status == 2" class="mb-4">
+              <label for="courseCategory" class="form-label">Trạng thái</label>
+              <select ng-model="course.status" class="form-select" required>
+                <option ng-value="">Chọn trạng thái</option>
+                <!-- <option ng-value="0">Nháp</option> -->
+                <option ng-value="1">Công khai</option>
+                <option ng-value="2">Không công khai</option>
+              </select>
+            </div>
+            <!-- Nếu bằng 0 thì chỉ cho chuyển công khai nếu đã chắc chắn -->
+            <div ng-if="course.status == 0" class="mb-4">
+              <label for="courseCategory" class="form-label">Trạng thái</label>
+              <select ng-model="course.status" class="form-select" required>
+                <option ng-value="">Chọn trạng thái</option>
+                <option ng-value="0">Nháp</option>
+                <option ng-value="1">Công khai</option>
+                <!-- <option ng-value="2">Không công khai</option> -->
+              </select>
+            </div>
+            <!-- Mô tả khóa học -->
+            <div class="mb-4">
+              <label for="courseDescription" class="form-label"
+                >Mô tả khóa học</label
+              >
+              <textarea
+                ng-model="course.description"
+                class="form-control"
+                id="courseDescription"
+                rows="4"
+                placeholder="Nhập mô tả khóa học"
+                required
+              ></textarea>
+            </div>
+            <!-- Ảnh đại diện -->
+            <div class="mb-4">
+              <label for="courseThumbnail" class="form-label"
+                >Ảnh đại diện</label
+              >
+              <div class="preview-container mb-3">
+                <img
+                  ng-src="{{selectedImage || course.avatar}}"
+                  alt="Xem trước ảnh"
+                  class="img-thumbnail"
+                  ng-if="selectedImage || course.avatar"
+                />
+              </div>
+              <input
+                type="file"
+                accept="image/*"
+                class=""
+                onchange="angular.element(this).scope().onFileChange(this)"
+                id="courseThumbnail"
+              />
+            </div>
+          </div>
+          <!-- Bên trái form -->
+          <div class="col-6">
+            <!-- Giá -->
+            <div class="mb-4">
+              <label for="coursePrice" class="form-label">Giá</label>
+              <input
+                ng-model="course.price"
+                type="text"
+                class="form-control"
+                id="coursePrice"
+                placeholder="Nhập giá"
+                required
+              />
+            </div>
+            <!-- Chủ đề khóa học -->
+            <div class="mb-4">
+              <label for="courseTopic" class="form-label"
+                >Chủ đề khóa học</label
+              >
+              <input
+                ng-model="course.topic"
+                type="text"
+                class="form-control"
+                id="courseTopic"
+                placeholder="Nhập chủ đề"
+                required
+              />
+            </div>
+            <!-- Danh mục khóa học -->
+            <div class="mb-4">
+              <label for="courseCategory" class="form-label"
+                >Danh mục khóa học</label
+              >
+              <select ng-model="course.categoryId" class="form-select" required>
+                <option value="">Chọn danh mục</option>
+                <option
+                  ng-repeat="item in listCategory"
+                  ng-value="item.categoryId"
+                >
+                  {{item.name}}
+                </option>
+              </select>
+            </div>
+            <!-- Độ khó khóa học -->
+            <div class="mb-4">
+              <label for="courseLevel" class="form-label"
+                >Độ khó khóa học</label
+              >
+              <select ng-model="course.levelId" class="form-select" required>
+                <option value="">Chọn độ khó</option>
+                <option
+                  ng-repeat="item in listLevel"
+                  ng-value="item.courseLevelId"
+                >
+                  {{item.name}}
+                </option>
+              </select>
+            </div>
+          </div>
+          <!-- Nút lưu -->
+          <div class="row">
+            <div class="col-12">
+              <button
+                type="submit"
+                class="btn btn-primary ps-3 pe-3"
+                id="addSectionBtn"
+              >
+                Lưu thông tin
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <!-- /////////////////////////////////////////////////// -->
+    <!-- Chi tiết khóa học -->
+    <div
+      class="tab-pane fade"
+      id="details"
+      role="tabpanel"
+      aria-labelledby="details-tab"
+    >
+      <div id="detailsForm">
+        <div id="sectionsContainer">
+          <div class="section-container">
+            <div class="container">
+              <div class="row">
+                <div class="col-12">
+                  <button
+                    ng-click="themMoiSection()"
+                    type="button"
+                    class="btn btn-primary"
+                    id="addSectionBtn"
+                  >
+                    <i class="fas fa-plus"></i> Thêm phần mới
+                  </button>
+                </div>
+              </div>
+              <div class="row" ng-if="listSection == null">Chưa có phần nào trong khóa học vui lòng thêm phần mới</div>
+              <hr />
+              <div class="row">
+                <div class="col-12">
+                  <table class="table table-bordered" id="categoryTable">
+                    <thead>
+                      <tr>
+                        <th scope="col">STT</th>
+                        <th scope="col">Tên</th>
+                        <th scope="col">Mô tả</th>
+                        <th scope="col">Thời lượng</th>
+                        <th scope="col">Ngày tạo</th>
+                        <th scope="col">Hành động</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr ng-repeat="item in listSection">
+                        <td>{{$index+1}}</td>
+                        <td>Phần: {{item.name}}</td>
+                        <td>
+                          <span ng-if="item.description == null"
+                            >Chưa có mô tả</span
+                          >
+                          <span ng-if="item.description != null"
+                            >{{item.description}}</span
+                          >
+                        </td>
+                        <td>
+                          <span ng-if="item.sectionDuration == 0" class="badge rounded-pill bg-warning text-dark">
+                              Chưa có video
+                          </span>
+                          <span ng-if="item.sectionDuration != 0">
+                              {{ formatDuration(item.sectionDuration) }} <i class="fa fa-clock me-1"></i>
+                          </span>
+                        </td>
+                        <td>{{item.createAt | date: 'dd - MM - yyyy' }}</td>
+                        <td>
+                          <div class="d-flex gap-2 mt-2">
+                            <!-- Sử dụng d-flex và gap-2 để tạo khoảng cách giữa các nút -->
+                            <a
+                              class="btn btn-sm btn-warning"
+                              href="#!assets/views/admin/course_manager_detail/{{courseId}}/section/{{item.sectionId}}"
+                            >
+                              <i class="fa fa-pencil"></i> Chi tiết
+                            </a>
+                            <button
+                              class="btn btn-sm btn-danger"
+                              ng-click="removeSection(item.sectionId)"
+                            >
+                              <i class="fa fa-trash"></i> Xóa
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+                <!-- Table phần -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

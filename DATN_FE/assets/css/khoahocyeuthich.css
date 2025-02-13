@@ -1,0 +1,196 @@
+.img-cart {
+  display: block;
+  max-width: 100px;
+  height: 100px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+table tr td {
+  border: 1px solid #FFFFFF;
+}
+
+table tr th {
+  background: #eee;
+}
+
+.panel-shadow {
+  box-shadow: rgba(0, 0, 0, 0.3) 7px 7px 7px;
+}
+
+.video-container {
+  position: relative;
+  padding-bottom: 56.7%;
+  /* 16:9 ratio */
+  height: 0;
+}
+
+.position-absolute-custom {
+  position: absolute;
+  left: 50%;
+  /* Đặt phần tử gần giữa */
+  /* Căn chỉnh phần tử ở đầu trang */
+  transform: translateX(10%);
+  /* Lệch về phía phải một chút */
+}
+
+/* Đối với màn hình nhỏ hơn, có thể cần điều chỉnh vị trí hoặc loại bỏ vị trí tuyệt đối */
+@media (max-width: 768px) {
+  .position-absolute-custom {
+    position: relative;
+    /* Hoặc các thuộc tính khác tùy thuộc vào thiết kế */
+    left: auto;
+    top: auto;
+    transform: none;
+    /* Loại bỏ hoặc thay đổi chuyển đổi nếu cần */
+  }
+}
+
+.nav-tabs .nav-link {
+  border: none;
+  color: gray;
+}
+
+.nav-tabs .nav-link.active {
+  border-bottom: 4px solid white;
+  color: #333333;
+}
+
+.tab-content {
+  margin-top: 20px;
+}
+
+.tab-content p {
+  margin: 0;
+  font-size: 1.1rem;
+}
+
+.tab-content h5 {
+  margin-top: 20px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.custom-tab {
+  background-color: #333333;
+}
+
+.custom-tab .nav-link {
+  color: white;
+  border-color: white;
+  background-color: #333333;
+  font-weight: bold;
+}
+
+.custom-tab .nav-link.active {
+  color: white;
+  border-color: white;
+  background-color: #333333;
+}
+
+.position-absolute-custom {
+  position: absolute;
+  top: 50%;
+  /* Căn chỉnh theo chiều dọc */
+  left: 10%;
+  /* Căn chỉnh theo chiều ngang (bên trái) */
+  transform: translateY(-50%);
+  /* Giúp căn chỉnh giữa theo chiều dọc */
+  font-size: 2.5rem;
+  /* Kích thước chữ */
+  font-weight: bold;
+  font-variant: initial;
+  /* Độ đậm của chữ */
+}
+
+.add-to-card {
+  background-color: blueviolet;
+  color: #eee;
+}
+
+.add-to-card:hover {
+  background-color: blueviolet;
+  color: #FFFFFF;
+  border: 1px solid;
+}
+
+.like {
+  color: #000;
+  border: 1px solid;
+}
+
+.like:hover {
+  background: red;
+  color: #000;
+  border: 1px solid;
+}
+
+.col-md-8 p {
+  font-size: 20px;
+  /* Tăng kích thước chữ cho phần mô tả */
+
+}
+
+.col-md-8 p:nth-of-type(1) {
+  /* Danh mục */
+  color: #007bff;
+  /* Màu xanh dương cho danh mục */
+}
+
+.col-md-8 p:nth-of-type(2) {
+  /* Giá */
+  color: #ff5733;
+  /* Màu cam nổi bật */
+}
+
+/* Phân trang */
+.pagination {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.pagination-button {
+  background-color: #28a745; /* Màu xanh dương chủ đạo */
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.pagination-button:disabled {
+  background-color: #e0e0e0; /* Màu xám khi bị vô hiệu */
+  cursor: not-allowed;
+}
+
+.pagination-button:not(:disabled):hover {
+  background-color: #179635; /* Màu đậm hơn khi di chuột */
+}
+
+.pagination-page {
+  padding: 8px 12px;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.pagination-page:hover {
+  background-color: #f0f0f0; /* Màu xám nhạt khi di chuột qua */
+}
+
+.active-page {
+  background-color: #28a745; /* Màu xanh lá cho trang hiện tại */
+  color: white;
+  font-weight: bold;
+  cursor: default;
+}
+.img-fluid {
+  width: 100%; /* Chiếm toàn bộ chiều rộng của cột */
+  height: auto; /* Giữ tỷ lệ ảnh */
+  max-width: 200px; /* Giới hạn chiều rộng tối đa */
+  max-height: 190px; /* Giới hạn chiều cao tối đa */
+  margin: 0 auto; /* Căn giữa hình ảnh */
+  display: block;
+}

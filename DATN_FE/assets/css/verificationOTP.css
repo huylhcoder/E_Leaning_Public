@@ -1,0 +1,16 @@
+body{
+    background: linear-gradient(to bottom, #e0f7e9, #ffffff) no-repeat;
+}
+.otp-letter-input{
+    width: 50px;
+    height: 60px;
+    border: 1px solid #198754;
+    border-radius:10px;
+    color: #198754;
+    font-size: 30px;
+    text-align: center;
+    font-weight: bold;
+}
+.btn{
+    height: 50px;
+}

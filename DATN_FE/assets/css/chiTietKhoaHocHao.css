@@ -1,0 +1,19 @@
+.w {
+    font-size: 13px;
+}
+
+.card {
+    transition: transform 0.3s;
+    /* Hiệu ứng chuyển động */
+}
+
+.card:hover {
+    transform: scale(1.05);
+    /* Phóng to card khi hover */
+}
+.price {
+    font-weight: bold;
+    /* Chữ đậm */
+    text-align: center;
+    /* Căn giữa văn bản */
+}

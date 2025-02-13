@@ -1,0 +1,100 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body, html {
+    height: 100%;
+    font-family: Arial, sans-serif;
+}
+
+.containerV {
+    display: flex;
+    height: 100vh; /* Chiều cao 100% của cửa sổ trình duyệt */
+    width: 100vw; /* Chiều rộng 100% của cửa sổ trình duyệt */
+}
+
+.sidebar {
+    background-color: #f0f0f0;
+    padding: 20px;
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    overflow-y: auto; /* Thêm thanh cuộn dọc nếu nội dung dài */
+}
+/*
+.sidebar h2 {
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+*/
+.sidebar a {
+    text-decoration: none;
+    color: black;
+    font-size: 16px;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-radius: 8px;
+    transition: background-color 0.3s;
+    width: 100%;
+}
+
+.sidebar a .icon {
+    margin-right: 10px;
+    font-size: 20px;
+}
+
+.sidebar a:hover, .sidebar a.active {
+    /* background-color: #7b2dfc; */
+    background-color: #00bf63;
+    color: white;
+}
+
+.content {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto; /* Thêm thanh cuộn dọc nếu nội dung dài */
+}
+
+.content h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+/*  */
+
+.user-container {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background-color: #d3d3d3; /* Màu nền của avatar */
+    display: inline-block;
+}
+
+.avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover; /* Đảm bảo hình ảnh không bị méo */
+}
+.username {
+    margin-left: 10px;
+    font-size: 16px;
+    color: #000;
+    font-weight: 500;
+}
+
+.username:hover {
+    color: #FFF;
+    font-weight: bold;
+    font-style: italic;
+}

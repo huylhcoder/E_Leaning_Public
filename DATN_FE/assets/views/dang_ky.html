@@ -1,0 +1,45 @@
+<head>
+    <link rel="stylesheet" href="/assets/css/dang_ky.css">
+</head>
+<div ng-if="loading == 1" ng-include="'assets/views/pageloader.html'">
+    {{loading}}
+</div>
+<div class="container-fluid bg-img login-container">
+    <div class="row w-100">
+        <div class="col-sm-5 d-flex align-items-center offset-lg-6 justify-content-end">
+            <div class="login-card">
+                <div class="text-center">
+                    <img src="/assets/img/logo/Logodao.png" alt="Logo goEdu" class="img-fluid mb-2" style="max-width: 190px;">
+                </div>
+                <form ng-submit="checkUser()">
+                    <div class="mb-2 input-group">
+                        <span class="input-group-text"><i class="fas fa-user"></i></span>
+                        <input type="text" class="form-control" placeholder="Họ và tên" name="fullname" ng-model="userRegisterDTO.fullname" required>
+                    </div>
+                    <div class="mb-2 input-group">
+                        <span class="input-group-text"><i class="fas fa-envelope"></i></span>
+                        <input type="email" class="form-control" placeholder="Nhập email" name="email" ng-model="userRegisterDTO.email" required>
+                    </div>
+                    <div class="mb-2 input-group position-relative">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        <input type="{{ passwordFieldType }}" class="form-control" placeholder="Nhập mật khẩu của bạn" name="retypePassword" ng-model="userRegisterDTO.password" required>
+                        <span class="input-group-text" ng-click="togglePasswordVisibility()" style="cursor: pointer;">
+                            <i class="fas" ng-class="{'fa-eye': passwordFieldType === 'password', 'fa-eye-slash': passwordFieldType === 'text'}"></i>
+                        </span>
+                    </div>   
+                    <div class="mb-2 input-group position-relative">
+                        <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                        <input type="{{ passwordFieldType }}" class="form-control" placeholder="Nhập mật khẩu xác nhận" name="retypePassword" ng-model="userRegisterDTO.retypePassword" required>
+                        <span class="input-group-text" ng-click="togglePasswordVisibility()" style="cursor: pointer;">
+                            <i class="fas" ng-class="{'fa-eye': passwordFieldType === 'password', 'fa-eye-slash': passwordFieldType === 'text'}"></i>
+                        </span>
+                    </div>                    
+                    <button type="submit" class="btn btn-primary w-100 fw-bold" ng-disabled="isLoading">
+                        <span ng-if="!isLoading">ĐĂNG KÝ</span>
+                    </button>
+                    <!-- <button ng-click="chuyenTrangDangNhap()" class="btn btn-success">Đăng nhập</button> -->
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,186 @@
+
+    <style>
+        .img-cart {
+            display: block;
+            max-width: 100px;
+            height: 100px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        table tr td {
+            border: 1px solid #FFFFFF;
+        }
+
+        table tr th {
+            background: #eee;
+        }
+
+        .panel-shadow {
+            box-shadow: rgba(0, 0, 0, 0.3) 7px 7px 7px;
+        }
+    </style>
+
+
+
+    <main>
+        <div class="container mt-3">
+            <div class="row">
+                <!--Phương thức thanh toán-->
+                <div class="col-lg-9">
+                    <div class="container">
+                        <!-- Đơn hàng -->
+                        <div class="header clearfix">
+                            <h3 class="text-success">Chi tiết đơn hàng</h3>
+                        </div>
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Khóa học</th>
+                                            <th>Tên khóa học</th>
+                                            <th>Đơn giá</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table table-bordered">
+                                        <!-- <tr ng-repeat="item in listKhoaHoc">
+                                            <td class="float-start"><img ng-src="{{urlAnhKhoaHoc(item.anh_dai_dien)}}"
+                                                    class="img-cart"></td>
+                                            <td><strong>{{item.tieu_de}}</strong>
+                                            </td>
+                                            <td>{{item.gia}} VND</td>
+                                        </tr> -->
+                                        <tr>
+                                            <td class="float-start d-flex">
+                                                <div class="btn btn-secondary h-25">X</div>
+                                                <img src="https://onetech.jp/wp-content/uploads/2024/04/reactjs.png"
+                                                    class="img-cart">
+                                            </td>
+                                            <td><strong>React vs Angular vs Vue.js by Example</strong>
+                                            </td>
+                                            <td>100.000 VND</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="float-start d-flex">
+                                                <div class="btn btn-secondary h-25">X</div>
+                                                <img src="https://onetech.jp/wp-content/uploads/2024/04/reactjs.png"
+                                                    class="img-cart">
+                                            </td>
+                                            <td><strong>React vs Angular vs Vue.js by Example</strong>
+                                            </td>
+                                            <td>100.000 VND</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="float-start d-flex">
+                                                <div class="btn btn-secondary h-25">X</div>
+                                                <img src="https://onetech.jp/wp-content/uploads/2024/04/reactjs.png"
+                                                    class="img-cart">
+                                            </td>
+                                            <td><strong>React vs Angular vs Vue.js by Example</strong>
+                                            </td>
+                                            <td>100.000 VND</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                        <!-- End đơn hàng -->
+                    </div>
+                </div>
+                <!-- Chi tiết đơn hàng -->
+                <div class="col-lg-3">
+                    <div class="header clearfix">
+                        <h3 class="text-success">Tổng tiền</h3>
+                    </div>
+                    <div class="card position-sticky top-0">
+                        <div class="p-3 bg-light bg-opacity-10">
+                            <!-- Chi phí -->
+                            <div class="mb-1">
+                                <p class="fs-6 fw-bold ">Tiền tất cả khóa học: <span class="float-end">100.000 đ</span>
+                                </p>
+                                <p class="fs-6 fw-bold ">Số lượng khóa học: <span class="float-end">1</span></p>
+
+                            </div>
+                            <hr>
+                            <!-- Khuyến mãi-->
+                            <div class="mb-1">
+                                <p class="fw-bold">Khuyến mãi</p>
+                                <div class="mb-3 mt-3 row">
+                                    <div class="col-8">
+                                        <input type="text" value="0" class="form-control" id="khuyenmai"
+                                            placeholder="Nhập mã khuyến mãi tại đây">
+                                    </div>
+                                    <div class="col-4">
+                                        <button onclick="apDungKhuyenMai()" class="btn btn-dark row" id="submit-btn">Áp
+                                            dụng</button>
+                                    </div>
+                                </div>
+                                <!-- <div class="row">
+                                    <p class="text-danger">Mã khuyến mãi không tồn tại hoặc đã hết hạn</p>
+                                    <c:if test="${khuyenMai!=null}">
+                                        <p class="text-success">Phần trăm khuyến mãi: 10%</p>
+                                        <p class="text-success">
+                                            Tối đa: 150.000 VND
+                                        </p>
+                                    </c:if>
+                                </div> -->
+                                <div class="row">
+                                    <p class="text-danger">Mã khuyến mãi không tồn tại hoặc đã hết hạn</p>
+                                    <c:if test="${khuyenMai!=null}">
+                                        <p class="text-success">Phần trăm khuyến mãi: 10%</p>
+                                        <p class="text-success">
+                                            Tối đa: 150.000 VND
+                                        </p>
+                                    </c:if>
+                                </div>
+                            </div>
+                            <hr>
+                            <!-- Tổng tiền -->
+                            <p class="fs-6 fw-bold ">Tổng tiền: <span class="float-end">100.000 đ</span></p>
+                            <div class="form-check mb-1 small">
+                                <input class="form-check-input" type="checkbox" value="" id="tnc"> <label
+                                    class="form-check-label" for="tnc">
+                                    Chấp nhận <a href="#">các điều khoản và dịch vụ của chúng tôi</a>
+                                </label>
+                            </div>
+                            <!--  Nếu mà có thay đổi thì chuyển lại trang Booking truy cập booking servlet rồi xóa cái BookingId bên này-->
+                            <button ng-click="thanhToan()" type="button" class="btn btn-success fw-bold w-100 mt-2">Tiếp
+                                tục</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <script>
+        var app = angular.module("myapp", []).controller("myctrl", function ($scope, $http, $window, $location) {
+            //API để hiển thị ảnh từ Server
+            $scope.urlAnhKhoaHoc = function (filename) {
+                return `http://localhost:8080/api/khoahoc/anhkhoahoc/anh_khoa_hoc/${filename}`;
+            }
+
+            let listMaKhaHoc = [1];//Mã khóa học
+            $scope.listKhoaHoc = [];//Lưu khóa học
+            $scope.tienChuaGiamGia = 0;
+            $scope.tongTien = 0;
+            $scope.soLuongKhoaHoc = 0;
+            $scope.load_listKhoaHoc = function () {
+                //Duyệt từng phần từ để lưu vào list đôn hàng                
+                for (var i = 0; i < listMaKhaHoc.length; i++) {
+                    $http.get(`http://localhost:8080/api/khoahoc/makhoahoc/` + listMaKhaHoc[i]).then(resp => {
+                        $scope.listKhoaHoc.push(resp.data);
+                        $scope.tienChuaGiamGia += resp.data.gia;//Đúng tiền chưa giảm giá
+                        $scope.tongTien = $scope.tienChuaGiamGia;//Đúng tổng tiền
+                        $scope.soLuongKhoaHoc++;
+                    }).catch(err => {
+                        console.log("error: Staus " + err.status);
+                    })
+                }
+            }
+            $scope.thanhToan = function () {
+                $window.location.href = `http://127.0.0.1:5500/E_learning_client/vnpay_pay.html`;
+            }
+            $scope.load_listKhoaHoc();
+        });
+    </script>

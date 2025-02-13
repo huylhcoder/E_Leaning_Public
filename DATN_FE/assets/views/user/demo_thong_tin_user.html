@@ -1,0 +1,115 @@
+<!-- CSS -->
+<link rel="stylesheet" href="/assets/css/demo_thong_tin_user.css">
+ <!-- Loading -->
+ <div ng-if="loading == 1" ng-include="'assets/views/pageloader.html'">
+  {{loading}}
+</div>
+<!-- HTML -->
+<div class="container my-5 font">
+  <h2 class="fw-bold mb-4 text-success">Cài đặt trang cá nhân</h2>
+
+  <!-- Tab navigation -->
+  <ul class="nav nav-tabs" id="profileTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button class="nav-link fw-bold active" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile"
+        type="button" role="tab" aria-controls="profile" aria-selected="true">
+        Thông tin cá nhân
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button class="nav-link fw-bold" id="orders-tab" data-bs-toggle="tab" data-bs-target="#orders" type="button"
+        role="tab" aria-controls="orders" aria-selected="false">
+        Ảnh đại diện
+      </button>
+    </li>
+  </ul>
+
+  <!-- Tab content -->
+  <div class="tab-content" id="profileTabContent">
+    <!-- Profile tab -->
+    <div class="tab-pane fade show active" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+      <form class="mt-3">
+        <div class="row">
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="fullname" class="form-label fw-bold">Họ và Tên</label>
+              <input ng-model="user.name" type="text" class="form-control border-dark rounded-0" id="fullname"
+                placeholder="Họ và Tên" />
+            </div>
+            
+            <div class="mb-3">
+              <label for="phone" class="form-label fw-bold">Số điện thoại</label>
+              <div class="input-group">
+                <input ng-model="user.phone" type="text" class="form-control border-dark rounded-0"
+                  placeholder="Số điện thoại" />
+              </div>
+            </div>
+            
+            <!-- <div class="mb-3">
+              <label for="password" class="form-label fw-bold">Mật khẩu</label>
+              <input ng-model="form.password" type="password" class="form-control border-dark rounded-0" id="password"
+                placeholder="Mật khẩu" />
+            </div> -->
+            
+          </div>
+          <div class="col-md-6">
+            <div class="mb-3">
+              <label for="email" class="form-label fw-bold">Email</label>
+              <input ng-model="user.email" type="text" class="form-control border-dark rounded-0" id="email"
+                placeholder="Email" disabled />
+            </div>
+            <div class="mb-3">
+              <label for="role" class="form-label fw-bold">Vai trò</label>
+              <div class="input-group">
+                <input ng-model="user.role.name" type="text" class="form-control border-dark rounded-0"
+                  placeholder="Vai trò" disabled />
+              </div>
+            </div>
+          </div>
+        </div>
+        <button ng-click="updateUserData()" type="button" class="btn btn-success rounded-0">
+          <i class="fa fa-save"></i> Lưu 
+        </button>
+        <!-- <button ng-click="logout();" type="button" class="btn btn-danger rounded-0">
+          <i class="fa fa-save"></i> Đăng xuất
+        </button> -->
+      </form>
+
+
+    </div>
+    <!-- Orders tab -->
+    <div class="tab-pane fade" id="orders" role="tabpanel" aria-labelledby="orders-tab">
+      <h2 class="fw-bold fs-4 mb-0">Ảnh xem trước</h2>
+      <span class="mt-0 fs-6 text-secondary">Minimum 200x200 pixels, Maximum 6000x6000 pixels</span>
+      <div class="profile-image-preview rounded-0 border-dark">
+        <img class="w-25" ng-src="{{selectedImage || user.urlProfileImage}}" ng-if="selectedImage || user.urlProfileImage" alt="Profile Image" id="profileImage" />
+      </div>
+      <form>
+        <div class="mb-3">
+          <label for="formFile" class="form-label">Upload image</label>
+          <input  onchange="angular.element(this).scope().onFileChange(this)" class="form-control rounded-0 border-dark" type="file" id="formFile" accept="image/*"
+            onchange="previewImage(event)" />
+        </div>
+        <button ng-click="updateUserData($event)" type="button" class="btn btn-success rounded-0">
+          <i class="fa fa-save"></i> Lưu 
+        </button>
+      </form>
+    </div>
+
+  </div>
+</div>
+</div>
+<!-- <script>
+  function previewImage(event) {
+    const input = event.target;
+    const reader = new FileReader();
+    reader.onload = function () {
+      const dataURL = reader.result;
+      const output = document.getElementById("profileImage");
+      output.src = dataURL;
+    };
+    reader.readAsDataURL(input.files[0]);
+  }
+    var app = angular.module("app", []);
+</script> -->
+

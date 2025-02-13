@@ -1,0 +1,21 @@
+//Link ảnh null
+noImage = http://res.cloudinary.com/dxj6jmdm8/image/upload/v1731139264/nmq2pksknbgt87tk2zbn.png
+
+//Link video null
+noVideo = http://res.cloudinary.com/dxj6jmdm8/image/upload/v1732712217/hyaryf45db954o40djpr.jpg
+
+//Định dạng ngày tháng năm
+{{promo.endDate | date: 'dd/MM/yyyy' }}
+
+//Định dạng tiền tệ Việt Nam
+{{(course.price.toLocaleString('vi-VN') + ' VND')}}
+
+//Trang nào cần đăng nhập chưa có token thì chuyển sang trang đăng nhập
+const token = $window.sessionStorage.getItem("jwt_token");
+if (token == null) {
+    $window.location.href = "http://127.0.0.1:5500/index.html#!/assets/views/dang_nhap";
+}
+
+//Chưa có kết nối mạng
+Nguyên nhân không hiển thị icon = coi lại có kết nối mạng không
+Không kết nối mạng cũng không chạy được JS nhúng link

@@ -1,0 +1,44 @@
+/* Xánh lá cây */
+/* được khai báo để chứa các giá trị của
+     các thuộc tính CSS mà sử dụng các giá trị của
+     màu hồng từ biến  */
+/* Chứa giá trị màu hồng tương ứng */
+/* Có thể thay đổi 2 giá trị này để thành màu khác */
+/* :root {
+
+    --hue-value-1: 130;
+    --hue-value-2: 125;
+
+    --main-color: hsl(var(--hue-value-1), 74%, 61%);
+    --button-hover-color: hsl(var(--hue-value-1), 57%, 53%);
+    --body-bg-color: hsl(var(var(--hue-value-1), 63%, 97%));
+    --body-color-2: hsl(var(--hue-value-1), 40%, 93%);
+    --shadow: 0 0 10px hsl(var(--hue-value-1), 40%, 90%);
+    --body-gradient-bg-color-1: hsla(var(--hue-value-1), 100%, 50%, 0.2);
+    --body-gradient-bg-color-1: hsla(var(--hue-value-2), 100%, 50%, 0.2);
+    --decoration-bg-color-1: hsl(var(--hue-value-1), 100%, 70%);
+    --decoration-bg-color-2: hsl(var(--hue-value-2), 100%, 70%);
+} */
+
+:root {
+    --hue-value-1: 0;
+    --hue-value-2: 230;
+    --main-color: #198754;
+    /* Converted from hsl(var(--hue-value-1), 74%, 61%) */
+    --button-hover-color: #147c5b;
+    /* Converted from hsl(var(--hue-value-1), 57%, 53%) */
+    --body-bg-color: #fbfcf9;
+    /* Converted from hsl(var(--hue-value-1), 63%, 97%) */
+    --body-color-2: #f0f5ee;
+    /* Converted from hsl(var(--hue-value-1), 40%, 93%) */
+    --shadow: 0 0 10px #f0e5e9;
+    /* Converted from hsl(var(--hue-value-1), 40%, 90%) */
+    --body-gradient-bg-color-1: rgba(25, 135, 84, 0.2);
+    /* Converted from hsla(var(--hue-value-1), 100%, 50%, 0.2) */
+    --body-gradient-bg-color-2: rgba(25, 46, 230, 0.2);
+    /* Converted from hsla(var(--hue-value-2), 100%, 50%, 0.2) */
+    --decoration-bg-color-1: #5affb2;
+    /* Converted from hsl(var(--hue-value-1), 100%, 70%) */
+    --decoration-bg-color-2: #b2a2ff;
+    /* Converted from hsl(var(--hue-value-2), 100%, 70%) */
+}

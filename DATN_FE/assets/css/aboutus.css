@@ -1,0 +1,26 @@
+.intro-section {
+    background-color: #f8f9fa;
+    padding: 80px 0;
+}
+
+.intro-content {
+    width: 800px;
+    margin: 0 auto;
+}
+
+.intro-title {
+    font-size: 3rem;
+    font-weight: bold;
+    margin-bottom: 30px;
+}
+
+.intro-subtitle {
+    font-size: 1.2rem;
+    line-height: 1.5;
+    margin-bottom: 30px;
+}
+
+.intro-button {
+    display: inline-block;
+    margin-top: 20px;
+}

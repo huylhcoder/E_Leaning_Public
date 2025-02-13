@@ -1,0 +1,84 @@
+body {
+  font-family: "Roboto", sans-serif;
+  background-color: #f0f2f5;
+  color: #333;
+}
+
+.nav-tabs .nav-link {
+  border: none;
+  color: #2d8854;
+  font-weight: 500;
+  transition: color 0.3s, border-bottom 0.3s;
+}
+
+.nav-tabs .nav-link:hover {
+  background-color: #2d8854;
+  color: #ffffff;
+}
+
+.nav-tabs .nav-link.active {
+  /* font-weight: 700; */
+  color: #ffffff;
+  /* border-bottom: 3px solid #2d8854; */
+}
+
+.section-container,
+.quiz-container,
+.overview-container {
+  margin-bottom: 1.5rem;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  border: 1px solid #dee2e6;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.btn-remove {
+  /* position: absolute;
+  top: 15px;
+  right: 15px;
+  cursor: pointer; */
+  color: #dc3545;
+  font-size: 1.25rem;
+}
+
+.btn-remove:hover {
+  color: #c82333;
+}
+
+.preview-container {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.preview-container img {
+  max-width: 250px;
+  max-height: 250px;
+  object-fit: cover;
+  border: 2px solid #dee2e6;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-primary {
+  background-color: #2d8854;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #2d8854;
+}
+
+.btn-secondary {
+  background-color: #e9ecef;
+  border: none;
+}
+
+.btn-secondary:hover {
+  background-color: #d0d7de;
+}
+
+.input-group-text {
+  background-color: #e9ecef;
+}

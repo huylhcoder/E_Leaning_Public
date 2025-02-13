@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>3.3.3</version>
+		<relativePath /> <!-- lookup parent from repository -->
+	</parent>
+	<groupId>com.fpoly</groupId>
+	<artifactId>DATN_BE</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
+	<name>DATN_BE</name>
+	<description>Dự án tốt nghiệp</description>
+	<url />
+	<licenses>
+		<license />
+	</licenses>
+	<developers>
+		<developer />
+	</developers>
+	<scm>
+		<connection />
+		<developerConnection />
+		<tag />
+		<url />
+	</scm>
+	<properties>
+		<java.version>17</java.version>
+	</properties>
+	<dependencies>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
+		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-test</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<!--Thêm server tomcat cho nó chạy-->
+		<dependency>
+			<groupId>org.apache.tomcat.embed</groupId>
+			<artifactId>tomcat-embed-jasper</artifactId>
+		</dependency>
+		<!--Khơi chạy lại dự án nếu có thay đổi-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-devtools</artifactId>
+			<scope>runtime</scope>
+			<optional>true</optional>
+		</dependency>
+		<!--Thao tác với JSP-->
+		<dependency>
+			<groupId>jakarta.servlet.jsp.jstl</groupId>
+			<artifactId>jakarta.servlet.jsp.jstl-api</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.glassfish.web</groupId>
+			<artifactId>jakarta.servlet.jsp.jstl</artifactId>
+			<version>2.0.0</version>
+		</dependency>
+		<!--Bắt lỗi tại class-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-validation</artifactId>
+		</dependency>
+		<!--Thư viện thao tác với CSDL-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.microsoft.sqlserver</groupId>
+			<artifactId>mssql-jdbc</artifactId>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-mail</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>javax.mail-api</artifactId>
+			<version>1.6.2</version>
+		</dependency>
+
+		<!--Payment -->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.10.1</version>
+		</dependency>
+		<dependency>
+			<groupId>at.favre.lib</groupId>
+			<artifactId>bcrypt</artifactId>
+			<version>0.10.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mindrot</groupId>
+			<artifactId>jbcrypt</artifactId>
+			<version>0.4</version>
+		</dependency>
+		<!--Xuát excel-->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>5.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>5.0.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>angularjs</artifactId>
+			<version>1.5.8</version>
+		</dependency>
+		<!-- Add Bootstrap support -->
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>bootstrap</artifactId>
+			<version>5.1.3</version>
+		</dependency>
+		<!--VNPAY-->
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.10.1</version>
+		</dependency>
+		<dependency>
+			<groupId>at.favre.lib</groupId>
+			<artifactId>bcrypt</artifactId>
+			<version>0.10.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mindrot</groupId>
+			<artifactId>jbcrypt</artifactId>
+			<version>0.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-client</artifactId>
+		</dependency>
+		<!--ClientRegistrationRepository-->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-oauth2-client</artifactId>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

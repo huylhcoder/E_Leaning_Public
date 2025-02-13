@@ -1,0 +1,170 @@
+<div class="container">
+    <!-- Phần câu hỏi -->
+    <div ng-if="!isSubmitted">
+        <div class="course-curriculum box">
+            <div class="container mt-5">
+                <div class="text-start">
+                    <button type="button" class="btn btn-secondary" ng-click="goBack()">
+                        <i class="fas fa-arrow-left"></i>
+                    </button>
+                    <div class="text-center mt-4">
+                        <h3 >Thời gian còn lại: {{countdown}} <span ng-if="quizs.countdownTimer == 0">Không giới hạn</span></h3>
+                    </div>
+                </div>
+                <div class="row" ng-repeat="item in quizs.listQuestion.slice(start, start + pageSize)">
+                    <div class="col offset-md-1">
+                        <form id="quiz-form" class="float-start">
+                            <label class="form-label">
+                                Câu hỏi {{start + $index + 1}}/{{quizs.listQuestion.length}}: {{item.contents}}
+                            </label>
+                            <div class="form-check" ng-repeat="dapAn in item.listAnswerDTO">
+                                <input class="form-check-input" type="radio" name="dapan_{{item.questionId}}"
+                                    ng-model="selectedAnswers[item.questionId - 1].answerId"
+                                    ng-value="dapAn.answerId"
+                                    ng-change="selectAnswer(item.questionId, dapAn.answerId)">
+                                <label class="form-check-label">{{dapAn.text}}</label>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div class="text-center mt-4">
+                    <button ng-click="first()" type="button" class="btn btn-success mt-5"> Câu đầu</button>
+                    <button ng-click="prev()" type="button" class="btn btn-success mt-5"> Câu trước</button>
+                    <button ng-click="next()" type="button" class="btn btn-success mt-5">Câu sau </button>
+                    <button ng-click="last()" type="button" class="btn btn-success mt-5">Câu cuối</button>
+                </div>
+
+                <div class="text-center mt-4">
+                    <button ng-click="handleSubmit()" type="button" class="btn btn-primary">Nộp bài</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Phần kết quả -->
+    <div ng-if="isSubmitted">
+        <div class="course-description box">
+            <button type="button" class="btn btn-secondary mb-3" ng-click="goBack()">
+                <i class="fas fa-arrow-left"></i>
+            </button>
+            <h3 class="text-capitalize mb-4">Kết quả:</h3>
+            <p ng-if="userTestResult.maxScore === 0" class="alert alert-warning">
+                Bạn chưa làm bài kiểm tra
+            </p>
+            <p ng-if="userTestResult.maxScore < 5 && userTestResult.maxScore !=0" class="alert alert-danger">
+                Bạn không đạt. Điểm của bạn: "Không đạt"
+            </p>
+            <p ng-if="userTestResult.maxScore >= 5" class="alert alert-success">
+                Chúc mừng, bạn đã vượt qua bài kiểm tra. Điểm của bạn: "Đạt"
+            </p>
+
+            <hr>
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th class="fs-5 fw-light">Đạt</th>
+                        <th class="fs-5 fw-light">Ngày nộp</th>
+                        <th class="fs-5 fw-light">Số đáp án đúng</th>
+                        <th class="fs-5 fw-light">Điểm mới nhất</th>
+                        <th class="fs-5 fw-light">Điểm lớn nhất</th>
+                        <!-- <th class="fs-5 fw-light">Phần trăm</th> -->
+                        <th class="fs-5 fw-light">Thao tác</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>
+                            <span ng-if="userTestResult.status == true">Đạt</span>
+                            <span ng-if="userTestResult.status == false">Không đạt</span>
+                        </td>
+                        <td>{{userTestResult.updateAt | date: 'dd/MM/yyyy' }}</td>
+                        <td ng-if="quizs.listQuestion && quizs.listQuestion.length > 0">
+                            {{userTestResult.numberOfCorrectAnswer}} trong {{quizs.listQuestion.length}}
+                        </td>
+                        <td ng-if="!quizs.listQuestion || quizs.listQuestion.length === 0">
+                            Không có câu hỏi
+                        </td>
+                        <td>
+                            <span ng-if="userTestResult.score < 5" class="badge bg-warning text-dark">{{userTestResult.score | number:2}} trong 10</span>
+                            <span ng-if="userTestResult.score >= 5" class="badge bg-success">{{userTestResult.score | number:2}} trong 10</span>
+                        </td>
+                        <td>{{userTestResult.maxScore | number:2}} trong 10</td>
+                        <!-- <td>{{userTestResult.per/10*100 | number:2}}%</td>                         -->
+                        <td>
+                            <button ng-click="resetQuiz()" class="btn btn-warning">Làm lại</button>
+                            <button ng-click="showDetails()" class="btn btn-info" data-bs-toggle="modal"
+                                data-bs-target="#detailsModal">Xem chi tiết</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <!-- Modal -->
+            <div class="modal fade" id="detailsModal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="detailsModalLabel">Chi tiết đáp án</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <!-- <div ng-if="quizs.listQuestion.length > 0">
+                                <div class="list-group">
+                                    <div class="list-group-item" ng-repeat="question in quizs.listQuestion">
+                                        <h5 class="mb-1">Câu hỏi {{$index+1}}: {{question.contents}}</h5>
+                                        <p></p>
+                                        <strong>Đáp án đã chọn:</strong>
+                                        <span class="badge bg-primary">{{getSelectedAnswerText(question.questionId)}}</span>
+                                        <span ng-if="isCorrectAnswer(question)"> ✔️</span>
+                                        <span ng-if="!isCorrectAnswer(question)"> ❌✔️</span>
+                                        <br>
+                                        <strong>Đáp án đúng:</strong>
+                                        <span class="badge bg-success">{{getCorrectAnswerText(question)}}</span>
+                                        <br>
+                                        <strong>Danh sách đáp án:</strong>
+                                        <ul>
+                                            <li ng-repeat="answer in question.answers">
+                                                <span ng-class="{'text-success': answer.answerId === getSelectedAnswerId(question.questionId), 'text-muted': answer.answerId !== getSelectedAnswerId(question.questionId)}">
+                                                    {{answer.contents}}
+                                                </span>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                            <div ng-if="quizs.listQuestion.length === 0">
+                                Không có câu hỏi để hiển thị.
+                            </div> -->
+                            <div class="row" ng-repeat="item in quizs.listQuestion">
+                                <div class="col offset-md-1">
+                                    <form id="quiz-form" class="float-start">
+                                        <label class="form-label">
+                                            Câu hỏi {{$index + 1}}/{{quizs.listQuestion.length}}: {{item.contents}}
+                                        </label>
+                                        <div class="form-check" ng-repeat="dapAn in item.listAnswerDTO">
+                                            <input class="form-check-input" type="radio" name="dapan_{{item.questionId}}"
+                                                ng-model="selectedAnswers[item.questionId - 1].answerId"
+                                                ng-value="dapAn.answerId"
+                                                ng-change="selectAnswer(item.questionId, dapAn.answerId)">
+                                            <label class="form-check-label">{{dapAn.text}}
+                                                <span ng-if="isUserAnswer(item.questionId, dapAn.answerId)"> 
+                                                    <span ng-if="dapAn.correct"> ✔️ (Đúng)</span>
+                                                    <span ng-if="!dapAn.correct"> ❌ (Sai)</span>
+                                                </span>
+                                            </label>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

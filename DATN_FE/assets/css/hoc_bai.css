@@ -1,0 +1,168 @@
+body {
+    background-color: #f4f6f9;
+    font-family: 'Arial', sans-serif;
+}
+.rating span {
+    font-size: 24px;
+    cursor: pointer;
+    color: #ccc; /* Màu ngôi sao mặc định */
+}
+
+.rating span.active {
+    color: #f39c12; /* Màu vàng cho ngôi sao đã chọn */
+}
+
+.video-container {
+    background-color: #000;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.video-container video {
+    width: 100%;
+    height: auto;
+    max-height: 450px;
+    border-radius: 10px;
+}
+
+.nav-tabs {
+    border-bottom: 2px solid #e9ecef;
+}
+
+.nav-link.active {
+    color: #007bff;
+    border-color: #007bff #007bff #f8f9fa;
+    font-weight: bold;
+}
+
+.course-content {
+    max-height: 450px;
+    overflow-y: auto;
+}
+
+.accordion-button {
+    font-weight: 600;
+    color: #343a40;
+    background-color: #f8f9fa;
+}
+
+.accordion-button.collapsed {
+    color: #6c757d;
+}
+
+.list-group-item {
+    border: none;
+    padding-left: 20px;
+    padding-right: 20px;
+    color: #495057;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.list-group-item:hover {
+    background-color: #e9ecef;
+    color: #007bff;
+}
+
+.list-group-item i {
+    color: #007bff;
+}
+
+.overview-section {
+    padding: 15px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.overview-section h5 {
+    font-weight: bold;
+}
+
+.card {
+    border: none;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+.card-title {
+    font-size: 1rem;
+    font-weight: bold;
+}
+
+
+progress-meter {
+    display: block;
+    height: 10px;
+    box-shadow: 0px 0px 6px 1px rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    padding: 1px;
+    margin-right: 2rem;
+    position: relative;
+}
+
+progress-percent {
+    display: block;
+    height: 100%;
+    border-radius: 5px;
+    width: calc(var(--progress) * 1%);
+    background-color: IndianRed;
+    font-size: 100%;
+    color: grey;
+}
+
+progress-percent[style="--progress: 100"] {
+    background-color: MediumAquamarine;
+}
+
+progress-percent::after {
+    counter-reset: percent var(--progress);
+    content: counter(percent) '%';
+    position: absolute;
+    right: -3rem;
+    bottom: -0.5rem;
+}
+
+/* progress-percent[style="--progress: 100"]{
+    counter-reset: percent var(--progress);
+    content: counter(percent) '✓';
+    position: absolute;
+    right: -3rem;
+    bottom: -0.5rem;
+    
+} */
+
+.image-hover {
+    /* width: 30px; 
+    height: 30px; 
+    background-image: url('/assets/img/icon/certificateGreen.png');
+    background-size: cover;
+    transition: background-image 0.4s ease-in-out; */
+    width: 30px;
+    height: 30px;
+    transition: filter 0.3s ease;
+}
+
+.image-hover:hover {
+    /* background-image: url('/assets/img/icon/certificateWhite.png'); */
+    filter: brightness(0) invert(1);
+}
+
+.avatarTG {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    background-color: #d3d3d3; /* Màu nền của avatar */
+    display: inline-block;
+}
+
+.avatarTG img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover; /* Đảm bảo hình ảnh không bị méo */
+}

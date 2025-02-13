@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="emailApp">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form gửi mã xác minh</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        .header {
+            background-color: #66cc66;
+            padding: 10px;
+            text-align: center;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            font-size: 16px;
+            color: #333;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            font-size: 18px;
+            background-color: #66cc66;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .form-group button:hover {
+            background-color: #4caf50;
+        }
+        .footer {
+            text-align: center;
+            font-size: 14px;
+            color: #666;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body ng-controller="EmailController">
+
+    <div class="container">
+        <div class="header">Gửi Mã Xác Minh</div>
+        <form ng-submit="sendVerificationCode()">
+            <div class="form-group">
+                <label for="email">Email của bạn:</label>
+                <input type="email" id="email" ng-model="email" required placeholder="Nhập email của bạn">
+            </div>
+            <div class="form-group">
+                <label for="feedback">Mã xác minh:</label>
+                <input type="text" id="feedback" ng-model="feedback" required placeholder="Nhập mã xác minh">
+            </div>
+            <div class="form-group">
+                <button type="submit">Gửi Mã Xác Minh</button>
+            </div>
+        </form>
+        <div class="footer">
+            <p>Vui lòng đảm bảo thông tin chính xác khi gửi</p>
+        </div>
+    </div>
+
+    <script>
+        var app = angular.module('emailApp', []);
+        
+        app.controller('EmailController', ['$scope', '$http', function ($scope, $http) {
+            const token = "eyJhbGciOiJIUzI1NiJ9.eyJlbWFpbCI6InRlc3Q2QGdtYWlsLmNvbSIsInN1YiI6InRlc3Q2QGdtYWlsLmNvbSIsImV4cCI6MTczNDM1NjU3NH0.YU7eEm8uyw1Y-uDI5nmgsrJ00S101lYr-oZEZkXZ8eg"; // Thay thế bằng token thực tế của bạn
+            
+            $scope.sendVerificationCode = function () {
+                var requestData = {
+                    email: $scope.email,
+                    feedback: $scope.feedback
+                };
+
+                $http.post('http://localhost:8080/api/v1/comment/cc', requestData, {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                })
+                .then(function (response) {
+                    alert("Mã xác minh đã được gửi.");
+                })
+                .catch(function (error) {
+                    console.error('Error:', error);
+                    alert("Có lỗi xảy ra. Vui lòng thử lại.");
+                });
+            };
+        }]);
+    </script>
+
+</body>
+
+</html>

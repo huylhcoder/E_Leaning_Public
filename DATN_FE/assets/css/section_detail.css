@@ -1,0 +1,27 @@
+.custom-modal {
+  max-width: 800px; /* Điều chỉnh chiều rộng tối đa theo ý muốn */
+  width: 100%; /* Đảm bảo modal sử dụng toàn bộ chiều rộng */
+}
+
+.question-card {
+  max-height: 200px; /* Kích thước tối đa cho card */
+  overflow-y: auto; /* Hiển thị thanh cuộn khi nội dung quá dài */
+  min-height: 200px; /* Chiều cao tối thiểu */
+}
+
+.answer-card {
+  max-height: 100px; /* Kích thước tối đa cho card */
+  overflow-y: auto; /* Hiển thị thanh cuộn khi nội dung quá dài */
+  min-height: 100px; /* Chiều cao tối thiểu */
+}
+
+/* /////////// */
+.card-huy-custom {
+  background-color:  #3d3d3d;
+}
+.card-huy-custom {
+  background-color: #e8e8e8;
+  color: #a2a2a2;
+}
+/* ///////// */
+

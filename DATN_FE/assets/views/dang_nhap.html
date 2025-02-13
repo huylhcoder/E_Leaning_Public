@@ -1,0 +1,73 @@
+<link rel="stylesheet" href="/assets/css/dang_nhap_khoa.css" />
+<div class="container-fluid bg-img login-container">
+  <div class="row w-100">
+    <div
+      class="col-sm-5 d-flex align-items-center offset-lg-6 justify-content-end"
+    >
+          <div class="login-card">
+            <div class="text-center">
+              <img
+                src="/assets/img/logo/Logodao.png"
+                alt="Logo goEdu"
+                class="img-fluid mb-2"
+                style="max-width: 190px"
+              />
+            </div>
+
+            <form (ngSubmit)="login()">
+              <div class="mb-2 input-group">
+                <span class="input-group-text"
+                  ><i class="fas fa-user"></i
+                ></span>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder="Nhập tài khoản của bạn"
+                  name="email"
+                  ng-model="email"
+                  required
+                />                
+              </div>
+              <label class="text-danger">{{emailError}}</label>
+              <div class="mb-2 input-group position-relative">
+                <span class="input-group-text"><i class="fas fa-lock"></i></span>
+                <input type="{{ passwordFieldType }}" class="form-control" placeholder="Nhập mật khẩu của bạn" name="retypePassword" ng-model="password" required>
+                <span class="input-group-text" ng-click="togglePasswordVisibility()" style="cursor: pointer;">
+                    <i class="fas" ng-class="{'fa-eye': passwordFieldType === 'password', 'fa-eye-slash': passwordFieldType === 'text'}"></i>
+                </span>                
+            </div>  
+            <label class="text-danger">{{passwordError}}</label> 
+            <div class="">
+              <p><a href="/assets/views/quen_mat_khau.html">Quên mật khẩu ?</a></p>
+            </div>
+              <button ng-click="login()" class="btn btn-primary w-100 fw-bold">
+                ĐĂNG NHẬP
+              </button>
+            </form>
+            <div class="text-center position-relative">
+              <hr class="my-3" />
+              <span
+                class="px-1 bg-white position-absolute top-100 start-50 translate-middle text-muted mb-2"
+                >or</span
+              >
+            </div>
+            <div class="text-center mb-2">
+              <a href="#" class="btn btn-outline-danger w-100 btn-sm">
+                <img
+                  src="https://www.vectorlogo.zone/logos/google/google-tile.svg"
+                  class="w"
+                  alt=""
+                />
+                Đăng Nhập Google
+              </a>
+            </div>
+
+            <div class="text-center">
+              <p>Bạn chưa có tài khoản? <a href="#!assets/views/dang_ky">Đăng ký ngay</a></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

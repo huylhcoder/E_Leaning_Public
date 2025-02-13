@@ -1,0 +1,172 @@
+<link rel="stylesheet" href="/assets/css/khoahocyeuthich.css">
+
+<style>
+  .fc {
+    border: 1px solid #ced4da;
+    /* Đường viền */
+    border-radius: 0.375rem;
+    /* Bo góc */
+    padding: 8px 12px;
+    /* Khoảng cách nội dung */
+    font-size: 14px;
+    /* Kích thước chữ */
+    outline: none;
+    /* Loại bỏ viền mặc định khi focus */
+    width: 250px;
+    /* Đặt chiều rộng cố định */
+    transition: border-color 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+    /* Hiệu ứng hover/focus */
+  }
+
+  /* Hiệu ứng khi hover */
+  .fc:hover {
+    border-color: #80bdff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+  }
+
+  /* Hiệu ứng khi focus */
+  .fc:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+  }
+</style>
+
+<main ng-controller="favorite_courseController">
+  <div class="container mt-3">
+    <div class="row">
+      <!--Phương thức thanh toán-->
+      <div class="row ">
+        <div class="col-lg-12 mt-3">
+          <div class="col-lg-12">
+            <div class="row ">
+              <div style="height: 200px; background-color: #333333;" class="position-relative">
+                <h1 class="position-absolute-custom text-white">Khóa học của tôi</h1>
+              </div>
+              <ul class="nav nav-tabs custom-tab" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link active" id="ndbh-tab" data-bs-toggle="tab" data-bs-target="#ndbh"
+                    type="button" role="tab" aria-controls="ndbh" aria-selected="true">Danh sách khóa học của
+                    tôi</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <button class="nav-link" id="ndkh-tab" data-bs-toggle="tab" data-bs-target="#ndkh" type="button"
+                    role="tab" aria-controls="ndkh" aria-selected="false">Khóa học yêu thích</button>
+                </li>
+              </ul>
+              <div class="tab-content" id="myTabContent">
+                <!-- TAB 1 - DANH SÁCH KHÓA HỌC ĐÃ ĐĂNG KÝ -->
+                <div class="d-flex align-items-center justify-content-between mb-3">
+                  <input type="text" ng-model="searchQuery" placeholder="Tìm kiếm khóa học"
+                      class="form-control fc" ng-change="filterRegisteredCourses()"/>
+              </div>
+                <div class="tab-pane fade show active" id="ndbh" role="tabpanel" aria-labelledby="ndbh-tab">
+                  <div ng-if="registeredCourses.length === 0">
+                    <div class="row ">
+                      <div class="card">
+                        <div class="card-body">
+                          <blockquote class="blockquote mb-0">
+                            <p class="mb-4">Khóa học này hiện chưa có nội dung</p>
+                            <footer class="blockquote-footer">Đang chờ cập nhật</footer>
+                          </blockquote>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div
+                    ng-repeat="myCourse in filteredCourses | limitTo: itemsPerPage : (currentPage - 1) * itemsPerPage">
+                    <a href="" ng-click="gotoLearn(myCourse.course.courseId, myCourse.registeredCourseId)"
+                      class="card mb-3" style="max-width: 100%;">
+                      <div class="row g-0">
+                        <div class="col-md-4">
+                          <img src="{{myCourse.course.avatar}}" class="img-fluid rounded-start p-md-3"
+                            alt="{{myCourse.course.name}}">
+                        </div>
+                        <div class="col-md-8">
+                          <div class="card-body">
+
+                            <h2 class="card-title"> {{myCourse.course.name}}</h2>
+                            <p class="card-text">Danh mục: {{myCourse.course.category.name}}</p>
+                            <p class="card-text"><span
+                                ng-bind="myCourse.course.price == 0 ? 'Miễn phí' : (myCourse.course.price.toLocaleString('vi-VN') + ' VND')"></span>
+                            </p>
+                            <p class="card-text">Mô tả: {{myCourse.course.description}}</p>
+                            <p class="card-text">
+                              <small class="text-muted">Ngày đăng ký: {{myCourse.createAt | date:'dd/MM/yyyy'}}</small>
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                  <!-- Phân trang -->
+                  <div class="footer-bottom py-3 d-flex justify-content-center align-items-center">
+                    <div class="pagination">
+                      <button class="pagination-button" ng-click="goToPage(1)"
+                        ng-disabled="currentPage === 1">First</button>
+                      <button class="pagination-button" ng-click="goToPage(currentPage - 1)"
+                        ng-disabled="currentPage === 1">Previous</button>
+
+                      <!-- Hiển thị danh sách các trang -->
+                      <span class="pagination-page" ng-repeat="page in getPages()" ng-click="goToPage(page)"
+                        ng-class="{'active-page': page === currentPage}">
+                        {{ page }}
+                      </span>
+
+                      <button class="pagination-button" ng-click="goToPage(currentPage + 1)"
+                        ng-disabled="currentPage === totalPages">Next</button>
+                      <button class="pagination-button" ng-click="goToPage(totalPages)"
+                        ng-disabled="currentPage === totalPages">Last</button>
+                    </div>
+                  </div>
+                  <!-- Kết thúc mục lục -->
+                </div>
+                <!-- TAB 2 - KHÓA HỌC YÊU THÍCH -->
+                <div class="tab-pane fade" id="ndkh" role="tabpanel" aria-labelledby="ndkh-tab">
+                  <div ng-if="listYeuThich.length === 0">
+                    <div class="row">
+                      <div class="card">
+                        <div class="card-body">
+                          <blockquote class="blockquote">
+                            <p class="mb-4">Khóa học yêu thích hiện đang trống </p>
+                            <footer class="blockquote-footer">Đang chờ cập nhật</footer>
+                          </blockquote>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div ng-repeat="item in listYeuThich  | limitTo: itemsPerPage : (currentPage - 1) * itemsPerPage">
+                    <a href="" ng-click="gotoCourseDetail(item.course.courseId)" class="card mb-3"
+                      style="max-width: 100%;">
+                      <div class="row g-0">
+                        <div class="col-md-4">
+                          <img src="{{item.course.avatar}}" class="img-fluid rounded-start p-md-3"
+                            alt="{{khoahoc.anh_dai_dien}}">
+                        </div>
+                        <div class="col-md-8">
+                          <div class="card-body">
+                            <h2 class="card-title">{{item.course.name}}
+                              <button type="button" name="" id="" class="btn btn-outline-danger float-end"
+                                ng-click="deleteItem(item.favoriteCourseId)">
+                                Xóa <i class="fa-solid fa-trash-can"></i>
+                              </button>
+                            </h2>
+                            <p class="card-text">Danh mục: {{item.course.category.name}}</p>
+                            <p class="card-text"><span
+                                ng-bind="item.course.price == 0 ? 'Miễn phí' : (item.course.price.toLocaleString('vi-VN') + ' VND')"></span>
+                            </p>
+                            <p class="card-text">Mô tả: {{item.course.description}}</p>
+                          </div>
+                        </div>
+                      </div>
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>

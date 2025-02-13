@@ -1,0 +1,105 @@
+<style>
+  .star {
+    font-size: 20px;
+    /* Adjust the size as needed */
+    color: lightgray;
+    /* Default color for unfilled stars */
+  }
+
+  .star.filled {
+    color: black;
+    /* Color for filled stars */
+  }
+  .text-truncate-cell {
+    max-width: 70px;       /* Giới hạn chiều rộng của ô */
+    white-space: nowrap;    /* Không cho phép xuống dòng */
+    overflow: hidden;       /* Ẩn nội dung tràn ra ngoài */
+    text-overflow: ellipsis; /* Thêm dấu "..." khi nội dung bị cắt */
+}
+.form-control {
+    height: auto; /* Đảm bảo chiều cao tự điều chỉnh */
+    max-height: none; /* Loại bỏ giới hạn chiều cao nếu có */
+    overflow: visible; /* Đảm bảo nội dung không bị ẩn */
+
+}
+
+
+</style>
+
+<body ng-controller="feedBackController">
+  <div>
+    <div id="reviews" class="content-section">
+      <h5 class="mb-3">Danh sách Đánh giá</h5>
+      <table class="table table-striped table-hover">
+        <thead class="table-dark">
+          <tr>
+            <th>Tên người dùng</th>
+            <th>Khóa học</th>
+            <th>Nội dung</th>
+            <th>Ngày</th>
+            <th>Đánh giá</th>
+            <th>Trạng thái</th>
+            <th>Hành động</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in listDanhGia">
+            <td>{{item.user.name}}</td>
+            <td>{{item.course.name}}</td>
+            <td class="text-truncate-cell" title="{{item.content}}">
+              {{item.content}}
+          </td>            
+          <td>{{item.createAt | date:'yyyy-MM-dd'}}</td> <!-- Assuming createAt is a valid date -->
+            <td>{{getStars(item.statRating)}}</td>
+            <td><span class="{{ item.status ? 'text-success fw-bold fs-6' : 'text-danger fw-bold fs-6' }}">{{
+                item.status ? 'Đã duyệt' : 'Chưa duyệt' }}</span>
+            </td>
+            <td>
+              <button class="btn btn-primary btn-sm btn-reply" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                ng-click="addReplyComment(item.commentId)" ng-disabled="disabledReplies[item.commentId]">
+                <i class="fas fa-reply"></i> Phản hồi
+              </button>
+
+              <!-- <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Open modal for @mdo</button> -->
+              <button ng-click="changeStatus(item.commentId)" type="button" class="btn btn-success btn-sm"
+                ng-disabled="item.status">
+                <!-- disable if status is true -->
+                <i class="fas fa-unlock me-1"></i> Duyệt
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="exampleModalLabel">Phản hồi bình luận</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <!-- Hiển thị nội dung của bình luận -->
+              <div class="mb-2">
+                <label for="original-comment" class="form-label">Nội dung bình luận:</label>
+                <p id="original-comment" class="form-control" style="white-space: normal; word-wrap: break-word;">
+                  {{ selectedComment.content }}
+              </p>
+                         
+              </div>
+              <!-- Form phản hồi -->
+              <form>
+                <div class="mb-3">
+                  <label for="message-text" class="col-form-label">Nội dung phản hồi:</label>
+                  <textarea ng-model="reply.content" class="form-control" id="message-text"></textarea>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+              <button type="button" class="btn btn-primary" ng-click="submitReply()">Gửi</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</body>

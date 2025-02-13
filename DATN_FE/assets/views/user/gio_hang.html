@@ -1,0 +1,109 @@
+<link rel="stylesheet" href="/assets/css/gio_hang.css">
+<main ng-controller="HBaoCartCourseController">
+    <div class="container pb-5 mt-n2 mt-md-n3">
+        <div class="row">
+            <div class="">
+                <h3 class="text-success ms-3 mt-4 fw-bold">Giỏ hàng</h3>
+                <!-- Item-->
+                <div class="d-flex justify-content-center align-items-center" ng-if="listGioHang.length === 0">
+                    <div class="empty-courseCartHB">
+                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTZLhV29HaDKqmUqIqveXIBCyMdcaINrOyLmA&s"
+                            alt="Empty Cart">
+                        <h3>Giỏ hàng của bạn hiện đang trống</h3>
+                        <p>Trước khi tiến hành thanh toán, bạn phải thêm một số sản phẩm vào giỏ hàng của mình.</p>
+                        <a class="btn btn-outline-success" href="#!assets/views/user/danh_muc_khoa_hoc">Mua khóa học</a>
+                    </div>
+                </div>
+                <div ng-repeat="item in listGioHang" class="d-sm-flex justify-content-between my-4 pb-4 border-bottom">
+                    <div class="d-block d-sm-flex text-center text-sm-start">
+                        <a class="cart-item-thumb mx-auto me-sm-4 align-content-center" href="#"><img
+                                src="{{item.course.avatar}}" alt="Product"></a>
+                        <div class="pt-3">
+                            <h3 class="product-card-title font-weight-semibold border-0 pb-0 fs-5">
+                                <a href="#" class="text-success">{{item.course.name}}</a>
+                            </h3>
+                            <div class="font-size-sm"><span class="text-muted me-2">Mô tả:
+                                </span>{{item.course.description}}
+                            </div>
+                            <div class="font-size-sm"><span class="text-muted me-2">Đánh giá:</span><span
+                                    class="ratingCourse">({{item.course.averageRating}}.0)</span>
+                                <span class="avarage-stars">
+                                    <span ng-if="item.course.averageRating == 5">
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                    </span>
+                                    <span ng-if="item.course.averageRating == 4">
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                        <i class="fa-regular fa-star text-warning"></i>
+                                    </span>
+                                    <span ng-if="item.course.averageRating == 3">
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                        <i class="fa-regular fa-star text-warning"></i>
+                                        <i class="fa-regular fa-star text-warning"></i>
+                                    </span>
+                                    <span ng-if="item.course.averageRating == 2">
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                        <i class="fa-regular fa-star text-warning"></i>
+                                        <i class="fa-regular fa-star text-warning"></i>
+                                        <i class="fa-regular fa-star text-warning"></i>
+                                    </span>
+                                </span>
+                                <span class="followCourse">({{item.course.follow}})</span>
+                            </div>
+                            <div class="font-size-lg text-success fw-bold pt-2 fs-5"
+                                ng-bind="item.course.price == 0 ? 'Miễn phí' : (item.course.price.toLocaleString('vi-VN') + ' VND')">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="pt-2 pt-sm-0 ps-sm-3 mx-auto mx-sm-0 text-center text-sm-start"
+                        style="max-width: 10rem;">
+                        <div class="d-flex align-items-center">
+                            <div class="form-check me-2">
+                                <input class="form-check-input form-check-input-sm" type="checkbox"
+                                    ng-model="item.checked" ng-change="calculateTotalPrice(item)"
+                                    id="largeCheck_{{item.cartId}}">
+                                <label class="form-check-label" for="largeCheck_{{item.cartId}}">
+                                    <!-- Bạn có thể thêm nội dung cho nhãn ở đây nếu cần -->
+                                </label>
+                            </div>
+                            <button class="btn btn-outline-danger fw-bold" type="button"
+                                ng-click="deleteItem(item.cartId)"
+                                style="height: 1.5rem; line-height: 1.5rem; font-size: 0.875rem; padding: 0 0.5rem;">
+                                <i class="fa-solid fa-trash-can"></i>
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+                <button class="btn btn-outline-success d-block w-100" type="button" onclick="location.reload()"
+                    ng-if="listGioHang.length > 0">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="feather feather-refresh-cw me-1">
+                        <polyline points="23 4 23 10 17 10"></polyline>
+                        <polyline points="1 20 1 14 7 14"></polyline>
+                        <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+                    </svg>Cập nhật giỏ hàng</button>
+            </div>
+            <div class="col-md-4 d-flex pt-3 pt-md-0 border-1 total-price-container">
+                <div class="total-price-content">
+                    <h6 class="px-4 text-success fw-bold text-center mt-2">Tổng tiền</h6>
+                    <div class="font-weight-semibold text-center fs-5">{{ formatCurrency(tongTien) }}</div>
+                    <hr>
+                    <button ng-click="thanhToan()" class="btn btn-success btn-shadow w-100 py-2">Thanh toán</button>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+    </div>
+</main>

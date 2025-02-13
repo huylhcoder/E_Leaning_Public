@@ -1,0 +1,712 @@
+<link rel="stylesheet" href="/assets/css/section_detail.css" />
+<div ng-if="loading == 1" ng-include="'assets/views/pageloader.html'">
+    {{loading}}
+</div>
+<div class="container">
+  <ul class="list-unstyled d-flex align-items-center gap-2 mb-3">
+    <li ng-click="chuyenTrangLink('listCourse_url')" class="fs-5">       
+          Danh sách khóa học >
+    </li>
+    <li ng-click="chuyenTrangLink('listSection_url')" class="fs-5">       
+      Danh sách phần của khóa: {{course.name}} >
+</li>
+<li ng-click="chuyenTrangLink('sectionDetail_url')" class="fs-5 link-success">       
+  Danh sách khóa học của phần: {{section.name}} >
+</li>
+</ul>
+  
+  <!-- Phần -->
+  <div class="row mt-3">
+    <div class="container mt-4">
+      <ul class="nav nav-tabs" id="myTab" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link active"
+            id="overview-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#overview"
+            type="button"
+            role="tab"
+            aria-controls="overview"
+            aria-selected="true"
+          >
+            Thông tin phần
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            id="details-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#details"
+            type="button"
+            role="tab"
+            aria-controls="details"
+            aria-selected="false"
+          >
+            Các bài học của phần
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button
+            class="nav-link"
+            id="quiz-tab"
+            data-bs-toggle="tab"
+            data-bs-target="#quiz"
+            type="button"
+            role="tab"
+            aria-controls="quiz"
+            aria-selected="false"
+          >
+            Bài kiểm tra
+          </button>
+        </li>
+      </ul>
+      <div class="tab-content mt-4" id="myTabContent">
+        <!-- ////////////////////////////////////////////////////////////// -->
+        <!-- Thông tin tổng quát -->
+        <div
+          class="tab-pane fade show active"
+          id="overview"
+          role="tabpanel"
+          aria-labelledby="overview-tab"
+        >
+          <div id="sectionForm">
+            <div id="sectionsContainer">
+              <div class="section-container">
+                <!-- Nội dung -->
+                <div class="col-md-12">
+                  <div class="section-title">
+                    <h2 class="title">Nội Dung Phần</h2>
+                  </div>
+                  <div class="row">
+                    <div class="container">
+                      <form class="row" ng-submit="luuThongTinChiTietKhoaHoc()">
+                        <!-- Tên khóa học -->
+                        <div class="col-12">
+                          <div class="mb-4">
+                            <label for="courseTitle" class="form-label"
+                              >Tên phần</label
+                            >
+                            <input
+                              ng-model="section.name"
+                              type="text"
+                              class="form-control"
+                              id="courseTitle"
+                              placeholder="Nhập tên"
+                              required
+                            />
+                          </div>
+                          <!-- Mô tả khóa học -->
+                          <div class="mb-4">
+                            <label for="courseDescription" class="form-label"
+                              >Mô tả phần</label
+                            >
+                            <textarea
+                              ng-model="section.description"
+                              class="form-control"
+                              id="courseDescription"
+                              rows="4"
+                              placeholder="Nhập mô tả"
+                              required
+                            ></textarea>
+                          </div>
+                        </div>
+                        <!-- Bên trái form -->
+                        <!-- Nút lưu -->
+                        <div class="row mb-3">
+                          <div class="col-12">
+                            <button
+                              type="submit"
+                              class="btn btn-warning ps-3 pe-3"
+                              id="addSectionBtn"
+                            >
+                              <i class="fa fa-save"></i>
+                              Lưu phần
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+                <!-- Hết nội dung -->
+              </div>
+            </div>
+          </div>
+          <!-- Hết nội dung -->
+        </div>
+        <!-- /////////////////////////////////////////////////// -->
+        <!-- Chi tiết khóa học -->
+        <div
+          class="tab-pane fade"
+          id="details"
+          role="tabpanel"
+          aria-labelledby="details-tab"
+        >
+          <div id="Form">
+            <div id="sectionsContainer">
+              <div class="section-container">
+                <!-- Nội dung -->
+                <div class="col-md-12">
+                  <div class="section-title">
+                    <h2 class="title">Danh sách bài học</h2>
+                    <!-- <video width="100%" ng-src="{{videoUrlTest}}" controls>
+                      Your browser does not support the video tag.
+                  </video>
+                  <button 
+                  ng-click="loadVideo()"
+                  >Load Video</button> -->
+                  </div>
+                  <!-- Form - modal hiển thị khi nhấn thêm và chi tiết-->
+                  <div class="row">
+                    <div class="col-12">
+                      <div class="row">
+                        <div class="col-12">
+                          <div class="modal fade" id="exampleModalToggle" aria-hidden="true" aria-labelledby="exampleModalToggleLabel" tabindex="-1">
+                            <div class="modal-dialog modal-dialog-centered modal-lg w-100">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title" id="exampleModalToggleLabel">
+                                    <span class="badge bg-success">Nhập nội dung chi tiết bài học</span>
+                                  </h5>
+                                  <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                  <form class="row m-3">
+                                    <input ng-model="lessonDetail.lessonId" type="hidden" class="form-control" placeholder="ID bài học" readonly />
+                                    <div class="col-6">
+                                      <div class="mb-4">
+                                        <label for="courseTitle" class="form-label">Tên bài học</label>
+                                        <input ng-model="lessonDetail.name" type="text" class="form-control" placeholder="Nhập tên" required />
+                                      </div>
+                                      <div class="mb-4">
+                                        <label for="courseDescription" class="form-label">Mô tả bài học</label>
+                                        <textarea ng-model="lessonDetail.description" class="form-control" rows="4" placeholder="Nhập mô tả" required></textarea>
+                                      </div>
+                                    </div>
+                                    <div class="col-6">
+                                      <div class="mb-4">
+                                        <label for="courseThumbnail" class="form-label">Chọn video để upload</label>
+                                        <!-- Bài học chưa có video và video được chọn -->
+                                        <div class="preview-container mb-3" ng-if="videoSrc == null && selectedFile == null">
+                                        <img
+                                        src="http://res.cloudinary.com/dxj6jmdm8/image/upload/v1732712217/hyaryf45db954o40djpr.jpg"
+                                        alt="Xem trước ảnh"
+                                        class="img-thumbnail"
+                                      /></div>
+                                        <!-- Nếu video có sẵn -->
+                                        <div class="preview-container mb-3" ng-if="videoSrc != null && selectedFile == null">
+                                          <video width="100%" controls>
+                                            <source ng-src="{{videoSrc}}" type="video/mp4">
+                                            Your browser does not support the video tag.
+                                          </video>
+                                        </div>
+                                        <!-- Video được chọn -->
+                                        <div class="preview-container mb-3" ng-if="selectedFile != null">                                          
+                                          <video ng-if="videoSrc != null" width="100%" src="{{videoSrc}}" controls>                      
+                                            Your browser does not support the video tag.
+                                          </video>
+                                        </div>
+                                        <input type="file" accept="video/*" onchange="angular.element(this).scope().onFileChange(this)" placeholder="Chọn video để upload" id="courseThumbnail" />
+                                      </div>
+                                    </div>
+                                    <div class="col-12">
+                                      <button ng-click="saveLesson()" class="btn btn-success">Lưu bài học</button>
+                                    </div>
+                                  </form>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <a
+                        ng-click="showFormThemMoi()"
+                        class="btn btn-success mb-3"
+                        data-bs-toggle="modal"
+                        href="#exampleModalToggle"
+                        role="button"
+                        ><i class="fas fa-plus"></i> Thêm bài học mới</a
+                      >
+                    </div>
+                  </div>
+                  <!-- Hết form - modal -->
+                  <div class="row">
+                    <div class="col-12">
+                      <table class="table table-bordered" id="categoryTable">
+                        <thead>
+                          <tr>
+                            <th scope="col">Bài học</th>
+                            <th scope="col">Mô tả</th>
+                            <!-- <th scope="col">Video</th> -->
+                            <th scope="col">Thời lượng</th>
+                            <th scope="col">Ngày tạo</th>
+                            <th scope="col">Hành động</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr ng-repeat="item in listLesson">
+                            <td>Bài {{$index+1}}: {{item.name}}</td>
+                            <td>{{item.description}}</td>
+                            <td>
+                              <span ng-if="item.lessionDuration == 0" class="badge rounded-pill bg-warning text-dark">
+                                  Chưa có video
+                              </span>
+                              <span ng-if="item.lessionDuration != 0">
+                                  {{ formatDuration(item.lessionDuration) }} <i class="fa fa-clock me-1"></i>
+                              </span>
+                          </td>
+                            <td>
+                              {{item.createAt | date:
+                              'dd/MM/yyyy' }}<br />
+                              <small>Ngày tải lên</small>
+                            </td>
+                            <td>
+                              <div class="d-flex gap-2 mt-2">
+                                <!-- Sử dụng d-flex và gap-2 để tạo khoảng cách giữa các nút -->
+                                <button
+                                  class="btn btn-sm btn-warning"
+                                  ng-click="showLessonDetail(item.lessonId)"
+                                >
+                                  <i class="fa fa-pencil"></i> Chi tiết
+                                  <!-- {{item.lessonId}} -->
+                                </button>
+                                <button
+                                  class="btn btn-sm btn-danger"
+                                  ng-click="deleteLesson(item.lessonId)"
+                                >
+                                  <i class="fa fa-trash"></i> Xóa
+                                </button>
+                              </div>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                    <!-- Table phần -->
+                  </div>
+                </div>
+                <!-- Hết nội dung -->
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- ///////////////////////// -->
+        <!-- Quiz -->
+        <div
+          class="tab-pane fade"
+          id="quiz"
+          role="tabpanel"
+          aria-labelledby="quiz-tab"
+        >
+          <div id="quizForm">
+            <div id="sectionsContainer">
+              <!-- Nếu không có bài kiểm tra -->              
+              <div ng-if="testId == 0" class="section-container mb-3">
+                <div class="col-12">
+                  <button
+                  type="button"
+                  class="btn btn-success mt-1"
+                  id="addQuizBtn"
+                  ng-click="addTest()"
+                >
+                  <i class="fas fa-plus"></i> Tạo bài kiểm tra
+                </button>
+                </div>
+              </div>
+              <!-- Nếu có bài kiểm tra -->
+              <div ng-if="testId != 0" class="section-container">
+                <!-- Nội dung -->
+                <div class="col-md-12">
+                  <div class="section-title">
+                    <h2 class="title">Bài quiz của phần</h2>
+                    <div class="mb-4 d-flex align-items-center">
+                      <label for="countdownTimer" class="form-label me-2">Đồng hồ đếm ngược (giây):</label>
+                      <input 
+                          id="countdownTimer" 
+                          ng-model="countdownTimer" 
+                          type="text" 
+                          class="form-control me-2" 
+                          placeholder="Vui lòng nhập số giây"  
+                          style="width: 200px;" 
+                      />
+                      <button class="btn btn-success" ng-click="updateCountdownTimer(countdownTimer)">
+                          <i class="fa fa-save"></i>
+                          Lưu
+                      </button>
+                  </div>
+                    <label ng-if="countdownTimer == 0" class="text-warning">Nếu đồng hồ điếm ngược bằng 0 thì sẽ không có giới hạn thời gian làm bài kiểm tra</label>
+                  </div>
+                  <!-- Nút thêm câu hỏi mới -->
+                  <div class="col-12">
+                    <button
+                    type="button"
+                    class="btn btn-success mt-1"
+                    id="addQuizBtn"
+                    ng-click="openAddQuestionModal()"
+                  >
+                    <i class="fas fa-plus"></i> Thêm Câu Hỏi
+                  </button>
+                  <!-- Import quiz -->
+                  <!-- Nút để mở modal -->
+                  <button type="button" class="btn btn-success mt-1" data-bs-toggle="modal" data-bs-target="#fileModal">
+                    <i class="fas fa-save"></i> Chọn File
+                  </button>
+                  
+                  <!-- Modal -->
+                  <div class="modal fade" id="fileModal" tabindex="-1" aria-labelledby="fileModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="fileModalLabel">Chọn File</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <input type="file" id="fileInput" />
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+                                <button type="button" class="btn btn-success" ng-click="uploadFile()">Tải lên</button>
+                            </div>
+                        </div>
+                    </div>
+                  </div>
+                  <!-- Hết import quiz -->
+                  <a href="/assets/file/import test.xlsx" class="btn btn-success mt-1" download><i class="fas fa-download"></i> Mẫu Excel</a>
+                  <!-- Modal thêm câu hỏi mới -->
+                  <div
+                  class="modal fade"
+                  id="addModal"
+                  tabindex="-1"
+                  aria-labelledby="addModalLabel"
+                  aria-hidden="true"
+                >
+                  <div class="modal-dialog modal-dialog-centered modal-lg w-100">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="addModalLabel">
+                          <span class="badge bg-success align-items-center">Thêm mới</span>
+                        </h5>
+                        <button
+                          type="button"
+                          class="btn-close"
+                          data-bs-dismiss="modal"
+                          aria-label="Close"
+                        ></button>
+                      </div>
+                      <div class="modal-body">
+                        <!-- Nội câu hỏi -->
+                        <textarea
+                          class="form-control text-center question-card"
+                          ng-model="newQuestion.contents"
+                          placeholder="Nhập câu hỏi ở đây"
+                          rows="3"
+                          style="resize: vertical; overflow-y: auto"
+                        ></textarea>
+                        <div class="row mt-4">
+                          <!-- Nội dung đáp án -->
+                          <div class="col-12">
+                            <div class="row">
+                              <div
+                                ng-repeat="answer in newQuestion.listAnswerDTO"
+                                class="col-3 card-huy-custom m-3"
+                              >
+                                <div class="row p-0">
+                                  <!-- Radio button và delete -->   
+                                   <div class="col-12">
+                                    <div class="row">
+                                      <div class="col-6">
+                                        <input
+                                        type="radio"
+                                        name="correctAnswer"
+                                        ng-model="answer.correct"
+                                        ng-value="answer.correct"
+                                        ng-click="updateCorrectNewAnswer(answer)"
+                                        class="form-check-input check-custom-huy"
+                                      />                                        </div>
+                                       <!-- Nút xóa -->
+                                       <div class="col-6 text-end">
+                                        <button ng-click="removeAnswer(questionDetail.questionId, answer.answerId)" class="text-danger card-huy-custom border border-0"> <i class="fa fa-trash"></i> </button> </div>
+                                      </div>
+                                    </div>
+                                   </div>                                                           
+                                  <div class="col-12">
+                                    <div class="row">
+                                      <div class="card m-0 p-0 text-center align-items-center">
+                                        <textarea
+                                          class="card-body card-title form-control text-center answer-card p-0 m-0"
+                                          ng-model="answer.text"
+                                          placeholder="Nhập đáp án tại đây"
+                                          rows="3"
+                                          style="resize: vertical; overflow-y: auto"
+                                        ></textarea>
+                                      </div>
+                                    </div>
+                                   
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="row mb-3">
+                               <div class="col-2 d-flex align-items-center">
+                              <button
+                                ng-click="addAnswerToNewQuestion()"
+                                class="btn btn-success w-100 h-100"
+                              >
+                                <i class="fa fa-plus"></i>
+                              </button>
+                            </div>
+                          </div>
+                          <div class="row p-0 m-0">
+                            <div class="modal-footer">
+                              <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal"
+                              >
+                                Đóng
+                              </button>
+                              <button
+                                type="button"
+                                class="btn btn-success"
+                                ng-click="createQuestion()"
+                              >
+                                Tạo mới
+                              </button>
+                            </div>
+                          </div>
+                            </div>                           
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                  <!-- Hết modal thêm câu hỏi mới -->
+                  <hr />
+                  <div class="container mt-5">
+                    <h4>{{listQuestion.length}} Câu Hỏi</h4>
+                    <div class="row">
+                      <!-- Câu hỏi -->
+                      <div class="col-md-12">
+                        <div ng-repeat="item in listQuestion" class="card mb-5">
+                          <div class="card-body">
+                            <div class="row">
+                              <!-- Hiển thị nội dung câu hỏi -->
+                              <div class="col-8">
+                                <h5 class="card-title">
+                                  {{$index + 1}}. {{item.contents}}
+                                </h5>
+                              </div>
+                              <!-- Hiển thị chỉnh sửa và xóa -->
+                              <div class="col-4 text-end">
+                                <button
+                                  class="btn btn-sm btn-warning rounded-pill me-2"
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#editModal"
+                                  ng-click="showQuestionDetail(item.questionId)"
+                                >
+                                  <i class="fa fa-pencil"></i> Chi tiết
+                                  {{item.questionId}}
+                                </button>
+                                <button
+  class="btn btn-sm btn-danger rounded-pill"
+  data-bs-toggle="modal"
+  data-bs-target="#deleteModal"
+  ng-click="setQuestionIdToDelete(item.questionId)"
+>
+  <i class="fa fa-trash"></i> Xóa
+</button>
+                              </div>
+                            </div>
+                            <!-- Đáp án -->
+                            <div class="row">
+                              <div
+                                ng-repeat="answer in item.listAnswerDTO"
+                                class="col-6"
+                              >
+                                <div class="form-check">
+                                  <!-- Nếu đúng -->
+                                  <input
+                                    ng-if="answer.correct == true"
+                                    class="form-check-input"
+                                    type="radio"
+                                    id="question{{$parent.$index}}-{{$index}}"
+                                    checked
+                                    disabled
+                                  />
+                                  <!-- Nếu không đúng -->
+                                  <input
+                                    ng-if="answer.correct == false"
+                                    class="form-check-input"
+                                    type="radio"
+                                    id="question{{$parent.$index}}-{{$index}}"
+                                    disabled
+                                  />
+                                  <label
+                                    class="form-check-label"
+                                    for="question{{$parent.$index}}-{{$index}}"
+                                    >{{answer.text}}</label
+                                  >
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <!-- Model tạo câu hỏi mới -->
+
+                      <!-- Modal xem chi tiết câu hỏi -->
+                      <div
+                        class="modal fade"
+                        id="editModal"
+                        tabindex="-1"
+                        aria-labelledby="editModalLabel"
+                        aria-hidden="true"
+                      >
+                        <div
+                          class="modal-dialog modal-dialog-centered modal-lg w-100"
+                        >
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title" id="editModalLabel">
+                                <span class="badge bg-warning text-dark">Chỉnh sửa</span>
+                              </h5>                            
+                              <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                              ></button>
+                            </div>
+                            <div class="modal-body">
+                              <!-- Nội câu hỏi -->
+                              <textarea
+                              class="form-control text-center question-card"
+                              ng-model="questionDetail.contents"
+                              ng-change="onQuestionChange(questionDetail.questionId)"
+                              placeholder="Nhập câu hỏi ở đây"
+                              rows="3"
+                              style="resize: vertical; overflow-y: auto"
+                          ></textarea>
+                              <div class="row mt-4">
+                                <!-- Nội dung đáp án -->
+                                <div class="col-10">
+                                  <div class="row">
+                                    <div
+                                      ng-repeat="answer in questionDetail.listAnswerDTO"
+                                      class="col-3 card-huy-custom m-3"
+                                    >
+                                      <!-- Nút trên -->
+                                      <div class="row mt-1">
+                                        <div class="col-6">
+                                          <input
+                                          type="radio"
+                                          name="correctAnswer"
+                                          ng-model="answer.correct"
+                                          ng-value="answer.correct"
+                                          ng-click="updateCorrectAnswer(questionDetail.questionId, answer)"
+                                          class="form-check-input check-custom-huy"
+                                        />                                        </div>
+                                        <!-- Nút xóa -->
+                                        <div class="col-6 text-end">
+                                          <button ng-click="removeAnswer(questionDetail.questionId, answer.answerId)" class="text-danger card-huy-custom border border-0"> <i class="fa fa-trash"></i> </button> </div>
+                                        </div>
+                                        <!-- Text dưới -->
+                                        <div class="row pb-3">
+                                          <div class="col-12">
+                                            <div
+                                              class="card m-0 text-center align-items-center"
+                                            >
+                                            <textarea
+                                            class="card-body card-title form-control text-center answer-card p-0 m-0"
+                                            ng-model="answer.text"
+                                            ng-change="onAnswerChange(questionDetail.questionId, answer)"
+                                            placeholder="Nhập đáp án tại đây"
+                                            rows="3"
+                                            style="resize: vertical; overflow-y: auto"
+                                        ></textarea>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                  <!-- Hết một đáp án -->
+                                  <div class="col-2 d-flex align-items-center">
+                                    <button
+                                      ng-click="addAnswer(questionDetail.questionId)"
+                                      class="btn btn-success w-100 h-100"
+                                    >
+                                      <i class="fa fa-plus"></i>
+                                    </button>
+                                  </div>
+                                  <!-- Nút thêm -->
+                                </div>
+                                <!-- Hết nội dung một đáp án -->
+                              </div>
+                              <!-- b -->
+                            </div>
+                            <!--c  -->
+                          </div>
+                        </div>
+
+                        <!-- Modal xác nhận xóa -->
+                        <div
+  class="modal fade"
+  id="deleteModal"
+  tabindex="-1"
+  aria-labelledby="deleteModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="deleteModalLabel">
+          Xác nhận xóa
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        Bạn có chắc chắn muốn xóa câu hỏi này không?
+      </div>
+      <div class="modal-footer">
+        <button
+          type="button"
+          class="btn btn-secondary"
+          data-bs-dismiss="modal"
+        >
+          Không
+        </button>
+        <button
+          type="button"
+          class="btn btn-danger"
+          ng-click="confirmDeleteQuestion()"
+          data-bs-dismiss="modal"
+        >
+          Xóa
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+                      </div>
+                    </div>
+                    <!-- Hết list câu hỏi -->
+                  </div>
+                  <!-- Hết nội dung -->
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

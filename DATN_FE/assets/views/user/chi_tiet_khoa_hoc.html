@@ -1,0 +1,332 @@
+<!-- CSS -->
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap">
+<link rel="stylesheet" href="/assets/css/danh_muc_khoa_hoc.css">
+<link rel="stylesheet" href="/assets/css/chi_tiet_khoa_hoc.css">
+<link rel="stylesheet" href="/assets/css/chiTietKhoaHocHao.css">
+<link rel="stylesheet" href="/assets/css/test.css">
+<!-- HTML -->
+<main ng-controller="detail_courseController">
+    <div class="container mt-3">
+
+        <!-- NỘI DUNG KHÓA HỌC -->
+        <div class="row">
+            <!--Phương thức thanh toán-->
+            <div class="col-lg-5">
+                <div class="container">
+                    <div class="card header clearfix">
+                        <!-- <img ng-src="https://sosanhgiakhoahoc.com/images/posts/2021/khoa-hoc-nhiep-anh.jpg" width="100%"
+                height="auto" alt=""> -->
+                        <img src="{{course.avatar}}" width="100%" height="330px" alt="{{khoahoc.anh_dai_dien}}">
+                    </div>
+                </div>
+            </div>
+            <!-- Chi tiết đơn hàng -->
+            <div class="col-lg-7 mt-3">
+                <h2 class="mb-3">{{course.name}}</h2>
+                <p>Danh Mục: {{course.categoryName}}</p>
+                <p>Giá: <span
+                        ng-bind="course.price == 0 ? 'Miễn phí' : (course.price.toLocaleString('vi-VN') + ' VND')"></span>
+
+                </p>
+                <p>Mô Tả: {{course.description}}.</p>
+                <div class="rating">
+
+                    <span class="avarage-stars">
+                        <span ng-if="course.averageRating == 5">
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-solid fa-star text-warning"></i>
+                        </span>
+                        <span ng-if="course.averageRating == 4">
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-regular fa-star text-warning"></i>
+                        </span>
+                        <span ng-if="course.averageRating == 3">
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-regular fa-star text-warning"></i>
+                            <i class="fa-regular fa-star text-warning"></i>
+                        </span>
+                        <span ng-if="course.averageRating == 2">
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-regular fa-star text-warning"></i>
+                            <i class="fa-regular fa-star text-warning"></i>
+                            <i class="fa-regular fa-star text-warning"></i>
+                        </span>
+                        <span ng-if="course.averageRating == 1">
+                            <i class="fa-solid fa-star text-warning"></i>
+                            <i class="fa-regular fa-star text-warning"></i>
+                            <i class="fa-regular fa-star text-warning"></i>
+                            <i class="fa-regular fa-star text-warning"></i>
+                            <i class="fa-regular fa-star text-warning"></i>
+                        </span>
+                    </span>
+                </div>
+                <div class="col-7">
+                    <div ng-if="checkRegisteredCourses === true">
+                        <button class="btn btn-success mt-3" ng-click="gotoLearn(course.courseId)">Học bài <i class="fa-solid fa-book"></i></button>
+                        <button class="btn mt-3 btn-outline-danger" ng-click="toggleFavoriteCourse(course.courseId)">
+                            <i class="fa heart"
+                                ng-class="{'fa-solid fa-heart': isFavorite(course.id), 'fa-regular fa-heart ': !isFavorite(course.id)}"></i>
+                        </button>
+                    </div>
+                    <div ng-if="checkRegisteredCourses === false">
+                        <button class="btn btn-success mt-3" ng-if="course.price > 0"
+                            ng-click="BuyNow(course.courseId)">Mua
+                            ngay</button>
+                        <button class="btn btn-success mt-3" ng-if="course.price === 0"
+                            ng-click="addCourseToMyListCourse(course.courseId)">Học Ngay</button>
+                        <button class="btn btn-outline-primary mt-3" ng-click="addCourseToCart(course.courseId)"><i
+                                class="fa-solid fa-cart-shopping"></i></button>
+                        <button class="btn mt-3 btn-outline-danger" ng-click="toggleFavoriteCourse(course.courseId)">
+                            <i class="fa heart"
+                                ng-class="{'fa-solid fa-heart': isFavorite(course.id), 'fa-regular fa-heart ': !isFavorite(course.id)}"></i>
+                        </button>
+                    </div>
+                    <div ng-if="checkRegisteredCourses === null">
+                        <button class="btn btn-success mt-3" ng-if="course.price > 0"
+                            ng-click="BuyNow(course.courseId)">Mua
+                            ngay</button>
+                        <button class="btn btn-success mt-3" ng-if="course.price === 0"
+                            ng-click="addCourseToMyListCourse(course.courseId)">Học Ngay</button>
+                        <button class="btn btn-outline-primary mt-3" ng-click="addCourseToCart(course.courseId)"><i
+                                class="fa-solid fa-cart-shopping"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- nội dung khóa học -->
+        <div class="row mt-5">
+            <div class="col-md-12">
+                <div class="section-title">
+                    <h2 class="title">Nội Dung Khóa Học</h2>
+                </div>
+                <div class="row">
+                    <div ng-if="course.listSectionCourseDetailDTO.length === 0">
+                        <div class="card">
+                            <div class="card-body">
+                                <blockquote class="blockquote mb-0">
+                                    <p>Khóa học này hiện chưa có nội dung</p>
+                                    <footer class="blockquote-footer">Đang chờ cập nhật</footer>
+                                </blockquote>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-repeat="section in course.listSectionCourseDetailDTO" class="course-content">
+                        <div class="accordion" id="courseContentAccordion">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="headingOne_{{ $index }}">
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#collapseOne_{{ $index }}" aria-expanded="false"
+                                        aria-controls="collapseOne_{{ $index }}">
+                                        Phần {{ $index+1 }}: {{section.sectionName}}
+                                    </button>
+                                </h2>
+                                <div id="collapseOne_{{ $index }}" class="accordion-collapse collapse"
+                                    aria-labelledby="headingOne_{{ $index }}" data-bs-parent="#courseContentAccordion">
+                                    <div class="accordion-body">
+                                        <ul ng-repeat="lesson in section.listLesson" class="list-group">
+                                            <li class="list-group-item">
+                                                <i class="fas fa-play"></i>
+                                                Bài {{ $index + 1 }}: {{lesson.lessonName}}
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <section class="courses-section section-padding">
+            <div class="container">
+                <div class="row ">
+                    <div class="col-md-12">
+                        <div class="section-title m-0">
+                            <h2 class="title">Đánh Giá</h2>
+                        </div>
+                        <div ng-if="listComment.length === 0">
+                            <div class="card">
+                                <div class="card-body">
+                                    <blockquote class="blockquote mb-0">
+                                        <p>Chưa có bình luận nào cho khóa học này</p>
+                                        <footer class="blockquote-footer">Đang chờ cập nhật</footer>
+                                    </blockquote>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-repeat="item in listComment">
+                            <div class="card-body my-3 border p-3">
+                                <h6 class="card-title fw-bold">{{item.comment.user.name}} <span
+                                        class="ms-1 fs-6 float-end text-secondary">{{cmt.createAt}}</span></h6>
+                                <div class="float-end">
+                                    <span ng-if="item.comment.statRating == 5">
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                    </span>
+                                    <span ng-if="item.comment.statRating == 4">
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                        <i class="fa-regular fa-star text-warning"></i>
+                                    </span>
+                                    <span ng-if="item.comment.statRating == 3">
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                        <i class="fa-regular fa-star text-warning"></i>
+                                        <i class="fa-regular fa-star text-warning"></i>
+                                    </span>
+                                    <span ng-if="item.comment.statRating == 2">
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                        <i class="fa-regular fa-star text-warning"></i>
+                                        <i class="fa-regular fa-star text-warning"></i>
+                                        <i class="fa-regular fa-star text-warning"></i>
+                                    </span>
+                                    <span ng-if="item.comment.statRating == 1">
+                                        <i class="fa-solid fa-star text-warning"></i>
+                                        <i class="fa-regular fa-star text-warning"></i>
+                                        <i class="fa-regular fa-star text-warning"></i>
+                                        <i class="fa-regular fa-star text-warning"></i>
+                                        <i class="fa-regular fa-star text-warning"></i>
+                                    </span>
+                                </div>
+                                <p class="card-text fs-6 mt-3">{{item.comment.content}}</p>
+                                <div class="mb-3 fs-6 ms-2">
+                                    <h6 class="text-primary">{{item.reply.user.name}}</h6>
+                                    <p class="fs-6">{{item.reply.content}}</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="row ">
+                <div class="col-md-12 mt-4">
+                    <div class="section-title">
+                        <h2 class="title">Khóa học liên quan</h2>
+                        <div class="section-title">
+                            <div>
+                                <ul ng-if="showHashtags" class="mt-2" style="list-style-type: none; padding: 0;">
+                                    <li ng-repeat="h in hashtags" style="display: inline-block; margin-right: 10px;">
+                                        <a href="" ng-click="load_course_hashtag(h.hashTagId)"
+                                            class="text-primary">#{{h.hashTag.name}}</a>
+                                    </li>
+                                </ul>
+                            </div>
+                            <!-- Danh sách khóa học theo hashtag, chỉ hiển thị khi showCategoryCourses là true -->
+                            <div ng-if="listCourseOfHashtag.length === 0">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <blockquote class="blockquote mb-0">
+                                            <p>Không có khóa học nào liên quan đến khóa học này</p>
+                                            <footer class="blockquote-footer">Đang chờ cập nhật</footer>
+                                        </blockquote>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="d-flex flex-wrap align-items-start-custom gap-4 py-4">
+                                <div ng-repeat="itemHashtag in listCourseOfHashtag">
+                                    <div class="cardCourseHB">
+                                        <a href="" style="text-decoration: none;"
+                                            ng-click="gotoCourseDetail(itemHashtag.courseId)">
+                                            <div>
+                                                <img src="{{itemHashtag.avatar}}" alt="{{itemHashtag.name}}"
+                                                    class="card-imgCourseHB">
+                                            </div>
+                                            <div class="card-infoCourseHB">
+                                                <p class="text-titleCourseHB">{{itemHashtag.name}}</p>
+                                                <p class="text-bodyCourseHB">{{itemHashtag.description}}</p>
+                                                <div class="text-bodyCourseHB">
+                                                    <!-- <span class="average-rating">({{item.totalRate}}.0)</span> -->
+                                                    <span class="ratingCourse">({{itemHashtag.averageRating}}.0)</span>
+                                                    <span class="average-stars ml-2">
+                                                        <span ng-if="course.averageRating == 5">
+                                                            <i class="fa-solid fa-star text-warning"></i>
+                                                            <i class="fa-solid fa-star text-warning"></i>
+                                                            <i class="fa-solid fa-star text-warning"></i>
+                                                            <i class="fa-solid fa-star text-warning"></i>
+                                                            <i class="fa-solid fa-star text-warning"></i>
+                                                        </span>
+                                                        <span ng-if="course.averageRating == 4">
+                                                            <i class="fa-solid fa-star text-warning"></i>
+                                                            <i class="fa-solid fa-star text-warning"></i>
+                                                            <i class="fa-solid fa-star text-warning"></i>
+                                                            <i class="fa-solid fa-star text-warning"></i>
+                                                            <i class="fa-regular fa-star text-warning"></i>
+                                                        </span>
+                                                        <span ng-if="course.averageRating == 3">
+                                                            <i class="fa-solid fa-star text-warning"></i>
+                                                            <i class="fa-solid fa-star text-warning"></i>
+                                                            <i class="fa-solid fa-star text-warning"></i>
+                                                            <i class="fa-regular fa-star text-warning"></i>
+                                                            <i class="fa-regular fa-star text-warning"></i>
+                                                        </span>
+                                                        <span ng-if="course.averageRating == 2">
+                                                            <i class="fa-solid fa-star text-warning"></i>
+                                                            <i class="fa-solid fa-star text-warning"></i>
+                                                            <i class="fa-regular fa-star text-warning"></i>
+                                                            <i class="fa-regular fa-star text-warning"></i>
+                                                            <i class="fa-regular fa-star text-warning"></i>
+                                                        </span>
+                                                    </span>
+                                                </div>
+                                                <div class="card-footerCourseHB ">
+                                                    <span class="priceCourseHB ms-2"
+                                                        ng-bind="itemHashtag.price == 0 ? 'Miễn phí' : (itemHashtag.price.toLocaleString('vi-VN') + ' VND')"></span>
+                                                    <button class="card-buttonCourseHB btn btn-outline-success"
+                                                        ng-if="itemHashtag.price > 0"
+                                                        ng-click="addCourseToCart(itemHashtag.courseId)">
+                                                        <svg class="svg-icon" viewBox="0 0 20 20">
+                                                            <path
+                                                                d="M17.72,5.011H8.026c-0.271,0-0.49,0.219-0.49,0.489c0,0.271,0.219,0.489,0.49,0.489h8.962l-1.979,4.773H6.763L4.935,5.343C4.926,5.316,4.897,5.309,4.884,5.286c-0.011-0.024,0-0.051-0.017-0.074C4.833,5.166,4.025,4.081,2.33,3.908C2.068,3.883,1.822,4.075,1.795,4.344C1.767,4.612,1.962,4.853,2.231,4.88c1.143,0.118,1.703,0.738,1.808,0.866l1.91,5.661c0.066,0.199,0.252,0.333,0.463,0.333h8.924c0.116,0,0.22-0.053,0.308-0.128c0.027-0.023,0.042-0.048,0.063-0.076c0.026-0.034,0.063-0.058,0.08-0.099l2.384-5.75c0.062-0.151,0.046-0.323-0.045-0.458C18.036,5.092,17.883,5.011,17.72,5.011z">
+                                                            </path>
+                                                            <path
+                                                                d="M8.251,12.386c-1.023,0-1.856,0.834-1.856,1.856s0.833,1.853,1.856,1.853c1.021,0,1.853-0.83,1.853-1.853S9.273,12.386,8.251,12.386z M8.251,15.116c-0.484,0-0.877-0.393-0.877-0.874c0-0.484,0.394-0.878,0.877-0.878c0.482,0,0.875,0.394,0.875,0.878C9.126,14.724,8.733,15.116,8.251,15.116z">
+                                                            </path>
+                                                            <path
+                                                                d="M13.972,12.386c-1.022,0-1.855,0.834-1.855,1.856s0.833,1.853,1.855,1.853s1.854-0.83,1.854-1.853S14.994,12.386,13.972,12.386z M13.972,15.116c-0.484,0-0.878-0.393-0.878-0.874c0-0.484,0.394-0.878,0.878-0.878c0.482,0,0.875,0.394,0.875,0.878C14.847,14.724,14.454,15.116,13.972,15.116z">
+                                                            </path>
+                                                        </svg>
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <!-- Lặp qua danh sách khóa học liên quan -->
+            </div>
+    </div>
+    <div class="row">
+        <div class="col-12 text-center mb-3">
+            <a class="btn btn-theme" href="#!assets/views/user/danh_muc_khoa_hoc" onclick="window.scrollTo(0, 0)">Xem
+                tất cả khóa học</a>
+        </div>
+    </div>
+    </div>
+    </section>
+    </div>
+</main>

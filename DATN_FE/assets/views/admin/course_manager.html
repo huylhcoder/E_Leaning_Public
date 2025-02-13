@@ -1,0 +1,191 @@
+<link rel="stylesheet" href="/assets/css/course-manager.css" />
+<div class="container mt-3">
+  <ul class="list-unstyled d-flex align-items-center gap-2 mb-3">
+    <li ng-click="chuyenTrangLink('listCourse_url')" class="fs-5 link-success">       
+          Danh sách khóa học >
+    </li>
+</li>
+</ul>
+  <button ng-click="themMoiKhoaHoc()" class="btn btn-primary">
+    <i class="fas fa-plus"></i>
+    Thêm mới khóa học
+  </button>
+  <hr />
+  <ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item" role="presentation">
+      <button
+        class="nav-link vdm active"
+        id="video-management-tab"
+        data-bs-toggle="tab"
+        data-bs-target="#video-management"
+        type="button"
+        role="tab"
+        aria-controls="video-management"
+        aria-selected="true"
+      >
+        Khóa Học Đã Đăng
+      </button>
+    </li>
+    <li class="nav-item" role="presentation">
+      <button
+        class="nav-link vd"
+        id="video-tab"
+        data-bs-toggle="tab"
+        data-bs-target="#video"
+        type="button"
+        role="tab"
+        aria-controls="video"
+        aria-selected="false"
+      >
+        Bản Nháp
+      </button>
+    </li>
+  </ul>
+  <div class="tab-content" id="myTabContent">
+    <div
+      class="tab-pane fade show active"
+      id="video-management"
+      role="tabpanel"
+      aria-labelledby="video-management-tab"
+    >
+      <table class="table table-hover mt-3">
+        <thead>
+          <tr>
+            <th scope="col">Video</th>
+            <th scope="col">Tên Video</th>
+            <th scope="col">Chế độ hiển thị</th>
+            <th scope="col">Thời lượng</th>
+            <th scope="col">Ngày</th>
+            <th scope="col">Số bình luận</th>
+            <th scope="col">Doanh thu</th>
+          </tr>
+        </thead>
+        <tbody>
+          <!-- Khóa học đã đăng -->
+          <tr ng-repeat="item in listKhoaHocDaDang" class="video-row">
+            <td>
+              <img
+                ng-if="item.avatar == null"
+                src="http://res.cloudinary.com/dxj6jmdm8/image/upload/v1731139264/nmq2pksknbgt87tk2zbn.png"
+                alt="Video thumbnail"
+                class="me-2 img-fluid"
+                style="width: 100px; height: 100px"
+              />
+              <img
+                ng-if="item.avatar != null"
+                src="{{item.avatar}}"
+                class="me-2"
+                style="width: 100px; height: 100px"
+              />
+            </td>
+            <td>
+              <div class="">
+                <div class="video-title tt">{{item.name}}</div>
+                <div class="video-actions float-start">
+                  <a
+                    class="btn btn-sm btn-light btn-icon-top"
+                    href="#!assets/views/admin/course_manager_detail/{{item.courseId}}"
+                    ><i class="fa-solid fa-pen"></i>Chi tiết</a
+                  >
+                  <a
+                    class="btn btn-sm btn-light btn-icon-top"
+                    href="#!assets/views/admin/course_manager_detail/{{item.id}}/{{item.Name}}"
+                  >
+                    <i class="fa-regular fa-comment-dots"></i>Xem bình luận</a
+                  >
+                </div>
+              </div>
+            </td>
+            <td>
+              <p ng-if="item.status == 1" class="badge bg-success">
+                Công khai
+              </p>
+              <p ng-if="item.status == 2" class="badge bg-warning text-dark">
+                Không công khai
+              </p>
+            </td>
+            <td>
+              <span ng-if="item.courseDuration == 0" class="badge rounded-pill bg-warning text-dark">
+                  Chưa có video
+              </span>
+              <span ng-if="item.courseDuration != 0">
+                  {{ formatDuration(item.courseDuration) }} <i class="fa fa-clock me-1"></i>
+              </span>
+            </td>
+            <td>
+              {{item.createAt | date: 'dd/MM/yyyy' }}<br /><small
+                >Ngày tải lên</small
+              >
+            </td>
+            <td>{{item.numberOfComment}}</td>
+            <td>{{item.revenue}}VNĐ</td>
+          </tr>
+          <!-- Hết danh sách khóa học đã đăng -->
+        </tbody>
+      </table>
+    </div>
+
+    <div
+      class="tab-pane fade"
+      id="video"
+      role="tabpanel"
+      aria-labelledby="video-tab"
+    >
+      <table class="table table-hover mt-3">
+        <thead>
+          <tr>
+            <th scope="col ">Video</th>
+            <th scope="col">Tên khóa học</th>
+            <th scope="col">Chế độ hiển thị</th>
+            <th scope="col">Thời lượng</th>
+            <th scope="col">Ngày</th>
+            <th scope="col">Hành động</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="item in listKhoaHocNhap">
+            <td>
+              <img
+                ng-if="item.avatar == null"
+                src="http://res.cloudinary.com/dxj6jmdm8/image/upload/v1731139264/nmq2pksknbgt87tk2zbn.png"
+                alt="Video thumbnail"
+                class="me-2 img-fluid"
+                style="width: 100px; height: 100px"
+              />
+              <img
+                ng-if="item.avatar != null"
+                src="{{item.avatar}}"
+                class="me-2"
+                style="width: 100px; height: 100px"
+              />
+            </td>
+            <td>{{item.name}}<br /></td>
+            <td><span class="badge bg-secondary">Bản nháp</span></td>
+            <td>
+              <span ng-if="item.courseDuration == 0" class="badge rounded-pill bg-warning text-dark">
+                  Chưa có video
+              </span>
+              <span ng-if="item.courseDuration != 0">
+                  {{ formatDuration(item.courseDuration) }} <i class="fa fa-clock me-1"></i>
+              </span>
+          </td>
+            </td>
+            <td>
+              {{item.createAt | date: 'dd/MM/yyyy' }}<br /><small
+                >Ngày tải lên</small
+              >
+            </td>
+            <td>
+              <button ng-click="removeDraftCourse(item.courseId)" class="btn btn-danger btn-sm">Xóa</button>
+              <a
+                class="btn btn-warning btn-sm"
+                href="#!assets/views/admin/course_manager_detail/{{item.courseId}}"
+                ><i class="fa-solid fa-pen"></i>Chi tiết</a
+              >
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

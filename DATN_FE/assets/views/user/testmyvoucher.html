@@ -1,0 +1,27 @@
+<body>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Tên Voucher</th>
+                <th scope="col">Mã Voucher</th>
+                <th scope="col">Giảm</th>
+                <th scope="col">Bắt Đầu</th>
+                <th scope="col">Kết Thúc</th>
+            </tr>
+        </thead>
+            <tbody ng-repeat="(index, sale) in DanhSachVoucher">
+                <tr>
+                    <th scope="row">{{index + 1}}</th>
+                    <td>{{sale.voucherName}}</td>
+                    <td>{{sale.voucherCode}}</td>
+                    <td>{{sale.voucherPercentSale}}%</td>
+                    <td>{{sale.startDate}}</td>
+                    <td>{{sale.endDate}}</td>
+                </tr>
+            </tbody>
+    </table>
+</body>
+
+
+</html>

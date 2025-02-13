@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myAppAdmin">
+
+<head>
+    <title>Frog Quiz</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!-- Bootstrap CSS v5.2.1 -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous" />
+    <!-- ICON Logo-->
+    <link href="/assets/img/logo/icon_frogquiz.png" rel="icon" />
+    <!-- Fontawesome -->
+    <script src="https://kit.fontawesome.com/c5fd529f32.js" crossorigin="anonymous"></script>
+    <!-- Angular -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.8.2/angular.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-route/1.8.3/angular-route.min.js"></script>
+    <!-- CSS -->
+    <link rel="stylesheet" href="/assets/css/indexAdmin.css" />
+    <link rel="stylesheet" href="/assets/css/style.css" />
+    <link rel="stylesheet" href="/assets/css/team.css" />
+    <link rel="stylesheet" href="/assets/css/menu.css">
+    <link rel="stylesheet" class="js-color-style" href="/assets/css/colors/color-1.css" />
+    <link rel="stylesheet" href="assets/css/home.css" />
+    <link rel="stylesheet" href="assets/css/faq.css" />
+    <link rel="stylesheet" href="assets/css/login.css" />
+    <!-- Extra -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Kumbh+Sans:wght@400;700&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,500|Open+Sans" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons" />
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+    <!-- link JS moment chỉnh convert chuyển đổi text thành date theo kiểu "tùy chỉnh - - " -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.30.1/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/angular-route/1.8.3/angular-route.min.js"></script>
+    <!-- Alert -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <!-- Chart -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- TEST -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
+</head>
+
+<body>
+    <div class="containerV">
+        <div class="sidebar">
+            <a class="user-container" href="#!assets/views/user/demo_thong_tin_user" ng-controller="HeaderDetail">
+                <div class="avatar">
+                    <img src="{{user.urlProfileImage}}" alt="">
+                </div>
+                <div class="username">{{user.name}}</div>
+            </a>
+            <a href="#!assets/views/admin/course_manager">
+                <i class="fa-solid fa-book"></i> &nbsp; Quản lý Khóa học
+            </a>
+            <!-- <a href="#!assets/views/admin/course_manager_detail">
+                <i class="fa-solid fa-book"></i> &nbsp; Quản lý chi tiết Khóa học
+            </a> -->
+            <a href="#!assets/views/admin/userAdmin">
+                <i class="fa-solid fa-address-book"></i> &nbsp; Quản lý người dùng
+            </a>
+            <a href="#!assets/views/admin/feedback">
+                <i class="fa-solid fa-comments"></i> &nbsp; Quản lý đánh giá
+            </a>
+            <a href="#!assets/views/admin/quan_ly_khuyen_mai">
+                <i class="fa-solid fa-file-invoice-dollar"></i> &nbsp; Quản lý khuyến mãi
+            </a>
+            <a href="#!assets/views/admin/quan_ly_danh_muc">
+                <i class="fa-solid fa-list"></i> &nbsp; Quản lý danh mục
+            </a>
+            <a href="#!assets/views/admin/thong_ke">
+                <i class="fa-solid fa-chart-simple"></i> &nbsp; Thống kê
+            </a> <br>
+            <div ng-controller="LogOutCtr">
+                <button href="" ng-click="logout()" class="btn btn-outline-danger border-0  fw-bold">
+                    <i class="fa-solid fa-arrow-right-from-bracket"></i> &nbsp; Đăng xuất
+                </button>
+            </div>
+        </div>
+        <div class="content">
+            <div ng-view></div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"
+        integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.min.js"
+        integrity="sha384-BBtl+eGJRgqQAUMxJ7pMwbEyER4l1g+O15P+16Ep7Q9Q+zqX6gSbd85u4mG4QzX+"
+        crossorigin="anonymous"></script>
+    <!-- EXTRA -->
+    <script src="assets/js_giao_dien/style.js">
+        // Thêm hiệu ứng và viết mã cho css bằng JS
+    </script>
+    <script src="assets/JS/mainAdmin.Js">
+        // Thêm cái main angularJS
+    </script>
+    <!-- courses -->
+    <script src="assets/JS/courses.js"></script>
+    <!-- quiz -->
+    <script src="assets/JS/quiz.js"></script>
+    <!-- Trang đăng kí, đăng nhập, profile, và đổi mật khẩu-->
+    <script src="assets/JS/accounts.js"></script>
+    <script src="assets/JS/CateroryManeger.js"></script>
+    <script src="assets/JS/BaoCourse.js"></script>
+    <script src="assets/JS/BaoCartCourse.js"></script>
+    <script src="assets/JS/user-profile.js"></script>
+    <script src="assets/JS/sale.js"></script>
+    <script src="assets/JS/detail_course.js"></script>
+    <script src="assets/JS/headerKhoaCtrl.js"></script>
+    <script src="assets/JS/userAdmin.js"></script>
+    <script src="assets/JS/comment.js"></script>
+    <script src="assets/JS/BaoStatistical.js"></script>
+    <script src="assets/JS/feedBack.js"></script>
+    <script src="assets/JS/favorite_course.js"></script>
+    <!-- Huy -->
+    <script src="assets/JS/course_manager.js"></script>
+    <script src="assets/JS/course_detail_manager.js"></script>
+    <script src="assets/JS/section_detail_manager.js"></script>
+    <script>
+        app.controller('LogOutCtr', ['$scope', '$window', function ($scope, $window) {
+            $scope.logout = function () {
+                $window.sessionStorage.removeItem("jwt_token"); // Xóa token
+                window.location.href = "http://127.0.0.1:5500/index.html#!/assets/views/dang_nhap";
+            };
+        }]);
+    </script>
+    <script>
+        app.controller('HeaderDetail', ['$scope', '$window', '$http', function ($scope, $window, $http) {
+            const token = $window.sessionStorage.getItem("jwt_token"); // Lấy token từ sessionStorage
+            $scope.user = {};
+            $scope.getUserDataByEmail = function () {
+                if (!token) {
+                    alert("Token không tồn tại hoặc đã hết hạn. Vui lòng đăng nhập lại.");
+                    return;
+                }
+                $http
+                    .get(`http://localhost:8080/api/v1/user/profile/${token}`, {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    })
+                    .then(function (response) {
+                        if (response.data) {
+                            $scope.user = response.data; // Cập nhật dữ liệu form với phản hồi từ server
+                            console.log("Thông tin người dùng:", response.data);
+                        } else {
+                            alert("Không tìm thấy dữ liệu người dùng.");
+                        }
+                    })
+                    .catch(function (error) {
+                        console.error("Lỗi khi lấy dữ liệu người dùng:", error);
+                        alert("Đã xảy ra lỗi khi lấy thông tin người dùng. Vui lòng thử lại sau.");
+                    });
+            };
+            $scope.getUserDataByEmail();
+        }]);
+    </script>    
+</body>
+
+</html>

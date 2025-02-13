@@ -1,0 +1,157 @@
+<!-- HTML -->
+<div class="container">
+    <div class="row">
+        <!-- Form Section -->
+        <div class="col-12 mb-4">
+            
+            <div class="promo-card p-3">
+                <!-- Trigger Button -->
+
+                <!-- Modal -->
+                <div class="modal fade" id="voucherModal" tabindex="-1" aria-labelledby="voucherModalLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-lg"> 
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <!-- Form -->
+                                <form>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="promoCode" class="form-label">Mã Voucher</label>
+                                                <input ng-show="voucher.voucherId==null" ng-model="voucher.voucherCode"
+                                                    type="text" class="form-control" id="promoCode"
+                                                    placeholder="Nhập mã khuyến mãi" required>
+                                                <input ng-show="voucher.voucherId!=null" ng-model="voucher.voucherCode"
+                                                    type="text" class="form-control" id="promoCode"
+                                                    placeholder="Nhập mã khuyến mãi" required disabled>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="name" class="form-label">Tên Voucher</label>
+                                                <input ng-show="voucher.voucherId==null" ng-model="voucher.name"
+                                                    type="text" class="form-control" id="name" placeholder="Nhập tên KM"
+                                                    required>
+                                                <input ng-show="voucher.voucherId!=null" ng-model="voucher.name"
+                                                    type="text" class="form-control" id="name" placeholder="Nhập tên KM"
+                                                    required disabled>
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="discount" class="form-label">Phần Trăm Giảm Giá (%)</label>
+                                                <input ng-model="voucher.percentSale" type="number" class="form-control"
+                                                    id="discount" placeholder="Nhập phần trăm giảm" required>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="quantity" class="form-label">Số lượng</label>
+                                                <input ng-model="voucher.quantity" type="text" class="form-control"
+                                                    id="quantity" placeholder="Nhập số lượng">
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="startDate" class="form-label">Ngày Bắt Đầu</label>
+                                                <input ng-model="voucher.startDate" type="date" class="form-control"
+                                                    id="startDate">
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="endDate" class="form-label">Ngày Kết Thúc</label>
+                                                <input ng-model="voucher.endDate" type="date" class="form-control"
+                                                    id="endDate">
+                                            </div>
+
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="mb-3">
+                                                <label for="description" class="form-label">Mô Tả Voucher</label>
+                                                <textarea class="form-control" id="description" rows="3"
+                                                    placeholder="Nhập mô tả về khuyến mãi"
+                                                    ng-model="voucher.description"></textarea>
+                                            </div>
+                                            <div class="mb-3" ng-show="voucher.voucherId!=null">
+                                                <label for="status" class="form-label">Trạng thái Voucher</label>
+                                                <select class="form-select" ng-model="voucher.status" id="status"
+                                                    required disabled>
+                                                    <option ng-value="true">Còn hiệu lực</option>
+                                                    <option ng-value="false">Vô hiệu Voucher</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            <button type="submit" class="btn btn-success w-100"
+                                                ng-show="voucher.voucherId==null" ng-click="addVoucher()">Thêm Voucher</button>
+                                            <button type="submit" class="btn btn-success w-100"
+                                                ng-show="voucher.voucherId!=null" ng-click="updateVoucher()">Cập Nhật Voucher</button>
+                                        </div>
+                                        <div class="col-6">
+                                            <button type="button" class=" btn btn-warning w-100"
+                                            ng-click="resetVoucher()">Làm mới</button>
+                                        </div>
+                                        
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+        <h2 class="mb-4 fw-bold">Danh sách voucher</h2>
+        <button ng-show="voucher.voucherId==null" type="button" class="btn btn-success w ms-3" data-bs-toggle="modal" data-bs-target="#voucherModal">
+            + Tạo Voucher
+        </button>
+        <hr class="mt-4">
+        <!-- Promotion List Table Section -->
+        <div class="col-12">
+            <div class="promo-table">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Tên Voucher</th>
+                            <th scope="col">Mã Voucher</th>
+                            <th scope="col">Giảm</th>
+                            <th scope="col">SL</th>
+                            <th scope="col">Bắt Đầu</th>
+                            <th scope="col">Kết Thúc</th>
+                            <th scope="col">Mô Tả</th>
+                            <th scope="col">Trạng thái</th>
+                            <th scope="col"></th>
+                            <th scope="col"></th>
+                        </tr>
+                    </thead>
+                        <tbody ng-repeat="(index, sale) in DanhSachSales">
+                            <tr>
+                                <th scope="row">{{index + 1}}</th>
+                                <td>{{sale.name}}</td>
+                                <td>{{sale.voucherCode}}</td>
+                                <td>{{sale.percentSale}}%</td>
+                                <td>{{sale.quantity}}</td>
+                                <td>{{sale.startDate}}</td>
+                                <td>{{sale.endDate}}</td>
+                                <td>{{sale.description}}</td>
+                                <td><span class="{{ sale.status ? 'text-success fw-bold fs-6' : 'text-danger fw-bold fs-6' }}">{{sale.status ? "Còn Hiệu Lực" : "Hết Hiệu Lực"}}</td></span>
+                                <td><button type="button" class="btn btn-primary"
+                                        ng-click="viewDetail(sale.voucherId)">Edit</button></td>
+                                <td><button type="button" class="btn btn-danger"
+                                        ng-click="deleteVoucher(sale.voucherId)">Xóa</button></td>
+                            </tr>
+                        </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+
+    .w{
+        width: 140px;
+    }
+</style>

@@ -1,0 +1,271 @@
+.carousel-inner img {
+    height: 400px;
+    object-fit: cover;
+}
+
+.content {
+    padding: 20px 0;
+}
+
+.card {
+    margin-bottom: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card-header {
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.card-body p {
+    font-size: 1rem;
+}
+
+.footer {
+    background-color: #343a40;
+    color: #fff;
+    padding: 40px 0;
+}
+
+.footer a {
+    color: #fff;
+}
+
+.footer .social-icons a {
+    margin-right: 10px;
+    color: #fff;
+}
+
+.footer .menu a {
+    margin-right: 15px;
+    color: #adb5bd;
+    text-decoration: none;
+}
+
+.footer .menu a:hover {
+    text-decoration: underline;
+}
+
+.form-control-sm {
+    height: calc(1.5em + .5rem + 2px);
+    padding: .25rem .5rem;
+    font-size: .875rem;
+    border-radius: .2rem;
+}
+
+.btn-sm {
+    padding: .25rem .5rem;
+    font-size: .875rem;
+    border-radius: .2rem;
+}
+
+.navbar-brand img {
+    height: 40px;
+}
+
+.search-form {
+    display: flex;
+    flex-grow: 1;
+}
+
+.search-form input {
+    width: 100%;
+}
+
+.button-group a,
+.button-group button {
+    margin-left: 0.5rem;
+    /* Reduce the spacing between buttons */
+}
+
+.hv {
+    background-color: black;
+    color: #fff;
+}
+
+.hv:hover {
+    background-color: #ffffff;
+    border-color: #000000;
+    color: #000000;
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+.hv-earch {
+    border-color: #000000;
+}
+
+.hv-earch:hover {
+    background-color: #ffffff;
+    border-color: #000000;
+    color: #000000;
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+.hv-lg {
+    border-color: #000000;
+}
+
+.hv-lg:hover {
+    background-color: #000000;
+    border-color: #000000;
+    color: #ffffff;
+    transform: scale(1.05);
+    transition: all 0.3s ease;
+    font-weight: bold;
+}
+
+.hv-cart:hover {
+    background-color: green;
+    border-color: green;
+    color: #ffffff;
+    /* transform: scale(1.05);
+    transition: all 0.3s ease; */
+    font-weight: bold;
+}
+
+/* Custom CSS for spacing and alignment */
+.navbar-nav .nav-item {
+    margin-right: 1rem;
+}
+
+.navbar-brand {
+    margin-right: 2rem;
+}
+
+.navbar-toggler {
+    margin-right: 1rem;
+}
+
+.button-group {
+    margin-left: auto;
+    margin-right: 0;
+    display: flex;
+    justify-content: flex-start;
+    /* Đặt nhóm nút về bên trái */
+    align-items: center;
+}
+
+.search-form input {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.875rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 767.98px) {
+    .button-group {
+        margin-top: 1rem;
+        justify-content: flex-start;
+    }
+}
+
+/* Custom Dropdown Menu Styles */
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin: 0;
+    padding: 0;
+    border: 1px solid rgba(0, 0, 0, 0.125);
+    border-radius: 0.25rem;
+    background-color: #fff;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    z-index: 1000; /* Ensure dropdown is on top */
+}
+
+.dropdown-menu.show {
+    display: block;
+}
+
+.dropdown-item {
+    padding: 0.5rem 1rem;
+    transition: background-color 0.3s ease;
+}
+
+.dropdown-item:hover {
+    background-color: #f8f9fa;
+    color: #000;
+}
+
+.dropdown-submenu {
+    position: relative;
+    opacity: 0.7;
+    color: #000;
+}
+
+.dropdown-submenu .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 0;
+    left: 100%;
+    margin-top: -1px;
+    border-radius: 0.25rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    transition: all 0.3s ease;
+    z-index: 1000; /* Ensure submenu is on top */
+}
+
+.dropdown-submenu:hover .dropdown-menu {
+    display: block;
+}
+
+/* Remove the down arrow icon from dropdown toggle */
+.navbar-nav .dropdown-toggle::after {
+    display: none;
+}
+
+.m{
+    margin-top: 5px;
+}
+
+.search-container {
+    position: relative;
+    width: 100%;
+    max-width: 500px; /* Độ rộng tối đa của thanh tìm kiếm */
+}
+
+.search-input {
+    width: 100%;
+    padding: 10px 50px; /* Khoảng cách từ nội dung đến viền trong */
+    border: 1px solid #ddd;
+    border-radius: 25px;
+    font-size: 16px;
+}
+
+.search-icon {
+    position: absolute;
+    left: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: #888;
+}
+
+.search-extra-icons {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    gap: 10px;
+}
+
+.search-extra-icons i {
+    font-size: 18px;
+    color: #888;
+}
+
+.empty-courseCartHB {
+    text-align: center !important;
+    padding: 50px 0;
+}
+
+.empty-courseCartHB img {
+    width: 250px;
+    margin-bottom: 20px;
+}

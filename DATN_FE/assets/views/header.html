@@ -1,0 +1,89 @@
+<!-- NAV -->
+<nav class="navbar navbar-expand-lg bg-light">
+    <div class="container-fluid">
+        <!-- Item 1 -->
+        <a class="navbar-brand text-success fw-bold" href="#!assets/views/home">E-Learning</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+            data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <!-- Item 2 -->
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active p-3" aria-current="page" href="#!assets/views/trang_thuong/aboutus">Giới thiệu</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle p-3" href="courses.html" role="button"
+                        data-bs-toggle="dropdown" aria-expanded="false">
+                        Khóa học
+                    </a>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="#!assets/views/courses/courses">Tất cả khóa học</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">Game</a></li>
+                        <li><a class="dropdown-item" href="#">Java</a></li>
+                        <li><a class="dropdown-item" href="#">PHP</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <li><a class="dropdown-item" href="#">Agile</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active p-3 " aria-current="page" href="#!assets/views/trang_thuong/contact">Liên hệ</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active p-3" aria-current="page"  href="#!assets/views/trang_thuong/feedback">Góp ý</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active p-3" aria-current="page" href="#!assets/views/trang_thuong/faq_CauHoiThuongGap">Hỏi đáp</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle p-3" href="#" role="button" data-bs-toggle="dropdown"
+                        aria-expanded="false">
+                        Tài Khoản {{username}}
+                    </a>
+                    <ul class="dropdown-menu">
+                        <!-- Nếu username khác null thì cho xem trang profile -->
+                        <li ng-if="username!=null"><a ng-click="profile()" class="dropdown-item" href="#!assets/views/accounts/profile">Profile</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <!-- Nếu  chưa đăng nhập thì hiển thị đăng nhập , đăng ký -->
+                        <li ng-if="username==null"><a class="dropdown-item" href="#!assets/views/login">Đăng nhập</a></li>
+                        <li ng-if="username==null"><a class="dropdown-item" href="#!assets/views/accounts/register">Đăng ký</a></li>              
+                        <!-- Nếu đã đăng nhập thì cho đổi mật khẩu -->
+                        <li ng-if="username!=null"><a class="dropdown-item" href="#!assets/views/accounts/resetpass">Đổi mật khẩu</a></li>
+                        <li>
+                            <hr class="dropdown-divider">
+                        </li>
+                        <!-- Nếu đã đăng nhập thì cho đăng xuất -->
+                        <li ng-if="username!=null"><a ng-click="dangXuat()" class="dropdown-item" href="#">Đăng xuất</a></li>
+                    </ul>
+                </li>
+            </ul>
+            <ul class="navbar-nav d-flex ">
+                <li>
+                    <form role="search">
+                        <button class="btn btn-light " type="submit">
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </button>
+                    </form>
+                </li>
+                <li>
+                    <form role="search">
+                        <button class="btn btn-light " type="submit">
+                            <i class="fa-regular fa-sun"></i>
+                        </button>
+                    </form>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</nav>
+<!-- END NAV -->

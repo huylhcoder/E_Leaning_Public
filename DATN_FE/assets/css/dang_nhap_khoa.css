@@ -1,0 +1,44 @@
+.bg-img {
+    background-image: url('https://photoservice.goplay.vn//Resources/Upload/Images/Banner/0/03e0b039-7bee-48f7-b78f-e0e9cc1f99f6.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+.login-container {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    min-height: 100vh;
+}
+.login-card {
+    background: rgba(255, 255, 255, 0.9);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+}
+.divider {
+    display: flex;
+    align-items: center;
+    text-align: center;
+}
+.divider::before, .divider::after {
+    content: '';
+    flex: 1;
+    border-bottom: 1px solid #ddd;
+}
+.divider::before {
+    margin-right: .25em;
+}
+.divider::after {
+    margin-left: .25em;
+}
+.password-toggle {
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+}
+.w {
+    width: 32px;
+}

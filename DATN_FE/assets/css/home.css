@@ -1,0 +1,7 @@
+/* .container{
+    height: 720px;
+    width: 1180px;
+} */
+.text-gradient-1 {
+    color: linear-gradient(90deg, #2981bc, #11b229);
+}
